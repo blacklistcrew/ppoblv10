@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MstSetting;
 use App\Models\TrxDeposit;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,6 +17,27 @@ class DepositController extends Controller
     {
         return Inertia::render('Deposit/Index');
     }
+
+    public function list(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'q' => ['nullable', 'string'],
+            'per_page' => ['nullable', 'int'],
+        ]);
+
+        $q = $validated['q'] ?? '';
+        $perPage = $validated['per_page'] ?: 10;
+
+        $deposits = TrxDeposit::where('user_id', $request->user()->id)
+            ->when($q, function ($qry, $q) {
+                $qry->where('bank', 'like', "%$q%")
+                    ->orWhere('account_number', 'like', "%$q%");
+            })
+            ->paginate($perPage);
+
+        return response()->json($deposits);
+    }
+
 
     /**
      * Show the form for creating a new resource.

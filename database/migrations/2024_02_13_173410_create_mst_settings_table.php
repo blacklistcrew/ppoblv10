@@ -17,6 +17,11 @@ return new class extends Migration
             $table->unsignedTinyInteger('status')->default(1);
             $table->string('bank')->nullable();
             $table->string('account_number')->nullable();
+            $table->string('api_username')->nullable();
+            $table->string('api_dev_key')->nullable();
+            $table->string('api_prod_key')->nullable();
+            $table->string('api_secret')->nullable();
+            $table->unsignedTinyInteger('use_prod')->default(1);
             $table->timestamps();
         });
     }

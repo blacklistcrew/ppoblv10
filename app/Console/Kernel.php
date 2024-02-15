@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('productprepaid:update')->everyFiveMinutes();
+        $schedule->command('productprepaid:update')->everyFiveMinutes();
         $schedule->command('productpostpaid:update')->everyFiveMinutes();
         $schedule->command('trxprepaid:check')->everyMinute();
         $schedule->command('trxpostpaid:check')->everyMinute();

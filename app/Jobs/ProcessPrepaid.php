@@ -27,7 +27,7 @@ class ProcessPrepaid implements ShouldQueue
      */
     public function __construct($transaction)
     {
-        $this->transaction    = $transaction;
+        $this->transaction = $transaction;
     }
 
     /**
@@ -43,7 +43,7 @@ class ProcessPrepaid implements ShouldQueue
         $df = new DigiflazzHelper();
 
         try {
-            $today  = Carbon::today()->setTimeZone('Asia/Jakarta');
+            $today = Carbon::today()->setTimeZone('Asia/Jakarta');
 
             $sequence = (int) Transaction::where('code', $transaction->code)
                 ->where(function ($q) use ($transaction) {

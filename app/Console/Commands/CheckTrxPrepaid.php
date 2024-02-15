@@ -102,7 +102,7 @@ class CheckTrxPrepaid extends Command
                     $sisaSaldo = $user->saldo + $hargaproduk;
                     $user->saldo = $sisaSaldo;
 
-                    $trx->note = (!preg_match('/saldo/i', $note) ? $note : 'Produk sedang gangguan') . ". Saldo dikembalikan";
+                    $trx->note = (!preg_match('/saldo/i', $note) ? $note : 'Product inactive') . ". Deposit refund";
                     $trx->status = Transaction::STAT_FAILED;
                 }
 

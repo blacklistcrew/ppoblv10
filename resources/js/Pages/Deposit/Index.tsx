@@ -1,33 +1,66 @@
-import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { PageProps } from '@/types';
+import { Link, router } from '@inertiajs/react';
 import Card from '@/Components/Card';
-import { Link } from '@inertiajs/react';
+import PaginateDataTable from '@/Components/PaginateDataTable';
 import PrimaryButton from '@/Components/PrimaryButton';
+import clsx from 'clsx';
+import Transaction from '@/types/transaction';
+import { listStatus, rupiah } from '@/libs/BaseHelper';
+import { PageProps } from '@/types';
 import { FaPlus } from 'react-icons/fa';
 
-export default function Deposit({ auth }: PageProps) {
+export default function Index({ auth }: PageProps) {
+    const columns = [
+        {
+            name: 'Bank',
+            selector: (row: any) => row.bank,
+        },
+        {
+            name: 'Nominal',
+            selector: (row: any) => rupiah(row.nominal),
+        },
+        {
+            name: 'Account Number',
+            selector: (row: any) => row.account_number,
+        },
+        {
+            name: 'Status',
+            selector: (row: any) => {
+                const status = listStatus[row.status]
+
+                return <div className={clsx('px-3 py-2 rounded-xl text-white', status.color)}>{status.label}</div>
+            },
+        },
+        {
+            name: 'Date',
+            selector: (row: any) => row.created_at_formatted,
+        },
+        {
+            name: '',
+            selector: (row: any) => {
+                return (
+                    <Link href={`/deposit/${row.id}`}>
+                        <PrimaryButton>View</PrimaryButton>
+                    </Link>
+                )
+            },
+        },
+    ];
+
     return (
         <AuthenticatedLayout
             auth={auth}
-            title="Deposit"
+            title='Deposit'
         >
-            <Link href='/deposit/create' >
-                <PrimaryButton className='py-4'>
+            <div className='flex justify-between items-center'>
+                <div className='text-3xl dark:text-white'>Deposit</div>
+                <PrimaryButton className='py-3' onClick={() => router.get('/deposit/create')}>
                     <FaPlus />&nbsp;Topup
                 </PrimaryButton>
-            </Link>
+            </div>
             <Card>
-
-
-                {/* <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">Deposit</div>
-                    </div>
-                </div>
-            </div> */}
+                <PaginateDataTable url='/deposit/list' columns={columns} />
             </Card>
         </AuthenticatedLayout>
-    );
+    )
 }

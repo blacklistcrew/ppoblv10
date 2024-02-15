@@ -11,25 +11,19 @@ use App\Models\MstSetting;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TransactionController extends Controller
 {
 
     public function index(Request $request): Response
     {
-        // $role = request()->user()->getRole();
-
-        // echo '<pre>';
-        // var_dump($role);
-        // die;
-
         return Inertia::render('Transaction/Index', [
             'models' => MstCategory::orderBy('type')->get()
         ]);
@@ -289,7 +283,7 @@ class TransactionController extends Controller
         if ($checkExistingTrx) {
             return response()->json([
                 'success'   => false,
-                'message'   => 'Anda sudah melakukan pengecekan tagihan dengan No.pelanggan ' . $id_customer . ' (' . ucwords($checkExistingTrx->nama) . ')',
+                'message'   => 'You have check for this bill with ID Customer ' . $id_customer . ' (' . ucwords($checkExistingTrx->nama) . ')',
             ]);
         }
 
@@ -395,6 +389,22 @@ class TransactionController extends Controller
             ]);
         }
 
+        $user = $transaction->user;
+
+        if ($user->status != 1) {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Your account not activated'
+            ]);
+        }
+
+        if ($user->saldo < $transaction->total) {
+            return response()->json([
+                'success'   => false,
+                'message'   => 'Balance not enough'
+            ]);
+        }
+
         $validated = $validator->validated();
         if (empty($validated['type'])) {
             $transaction->status = Transaction::STAT_FAILED;
@@ -432,23 +442,7 @@ class TransactionController extends Controller
         if ($settings->status == 0) {
             return response()->json([
                 'success'   => false,
-                'message'   => 'Sistem sedang maintenance'
-            ]);
-        }
-
-        $user = $transaction->user;
-
-        if ($user->status != 1) {
-            return response()->json([
-                'success'   => false,
-                'message'   => 'Your account not activated'
-            ]);
-        }
-
-        if ($user->saldo < $transaction->total) {
-            return response()->json([
-                'success'   => false,
-                'message'   => 'Balance not enough'
+                'message'   => 'System on maintenance'
             ]);
         }
 

@@ -51,6 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/transaction/postpaid/{transaction}', [TransactionController::class, 'payPostpaid'])->name('transaction.pay-postpaid');
     Route::get('/transaction/{code}', [TransactionController::class, 'show'])->name('transaction.process');
 
+    Route::get('/deposit/list', [DepositController::class, 'list'])->name('deposit.list');
     Route::resource('deposit', DepositController::class);
 
     Route::get('/history', [HistoryController::class, 'index'])->name('history');

@@ -2,6 +2,8 @@
 
 namespace App\Helper;
 
+use App\Models\MstSetting;
+
 class DigiflazzHelper
 {
     protected $RC_SUCCESS = ['00'];
@@ -13,9 +15,11 @@ class DigiflazzHelper
 
     public function __construct()
     {
+        $setting = MstSetting::first();
+
         $this->url_endpoint = 'https://api.digiflazz.com/v1/';
-        $this->api_userid   = env('DIGIFLAZZ_USERNAME');
-        $this->api_key      = env('DIGIFLAZZ_KEY');
+        $this->api_userid   = $setting->api_username;
+        $this->api_key      = $setting->use_prod ? $setting->api_prod_key : $setting->api_dev_key;
     }
 
     public function curl($endpoint, $data = [])
