@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\MstSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -33,11 +34,11 @@ class HandleInertiaRequests extends Middleware
 
         return [
             ...parent::share($request),
-            'auth' => [
+            'data' => [
                 'user' => $user,
                 'is_admin' => $user ? $user->hasRole('admin') : null,
+                'setting' => MstSetting::first(),
             ],
-            'csrf_token' => csrf_token(),
         ];
     }
 }

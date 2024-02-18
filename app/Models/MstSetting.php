@@ -9,5 +9,5 @@ class MstSetting extends Model
 {
     use HasFactory;
 
-    protected $guards = [];
+    protected $guarded = [];
 }

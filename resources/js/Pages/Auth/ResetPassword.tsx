@@ -4,9 +4,10 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Head, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
+import { PageProps } from '@/types';
 
-export default function ResetPassword({ token, email }: { token: string, email: string }) {
+export default function ResetPassword({ token, email, ...rest }: PageProps & { token: string, email: string }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
         email: email,
@@ -27,9 +28,10 @@ export default function ResetPassword({ token, email }: { token: string, email: 
     };
 
     return (
-        <GuestLayout>
-            <Head title="Reset Password" />
-
+        <GuestLayout
+            title="Reset Password"
+            data={rest.data}
+        >
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />

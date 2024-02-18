@@ -10,8 +10,9 @@ import Product from '../Component/Product';
 import { router } from '@inertiajs/react';
 import { filterNumber } from '@/libs/BaseHelper';
 import ProductSelectedDesc from '../Component/ProductSelectedDesc';
+import { toast } from 'react-toastify';
 
-export default function EmoneyPrepaid({ auth, category, brands, csrf_token }: any) {
+export default function EmoneyPrepaid({ data, category, brands, csrf_token }: any) {
     const [phone, setPhone] = useState('')
     const [validatedNumber, setValidatedNumber] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -49,9 +50,12 @@ export default function EmoneyPrepaid({ auth, category, brands, csrf_token }: an
         });        
 
         if (result?.data?.data?.id) {
+            toast.success(result.data?.message);
             setIdProduct(0)
-            setPhone('')
             router.get(`/history/${result?.data?.data?.id}`)
+            return;
+        } else if (result.data?.message) {
+            toast.error(result.data?.message);
         }
 
         setLoadingSubmit(false)
@@ -86,7 +90,7 @@ export default function EmoneyPrepaid({ auth, category, brands, csrf_token }: an
 
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
             title="Transaction"
         >
             <Card className='flex flex-col px-10 gap-y-3 py-3'>
@@ -110,7 +114,7 @@ export default function EmoneyPrepaid({ auth, category, brands, csrf_token }: an
                 <ProductSelectedDesc description={descProduct} />
 
                 <div className='w-full text-right my-5'>
-                    <PrimaryButton disabled={!validatedNumber || loading || loadingSubmit} onClick={() => onSubmit()}>Process</PrimaryButton>
+                    <PrimaryButton loading={loadingSubmit} disabled={!validatedNumber || loading || loadingSubmit} onClick={() => onSubmit()}>Process</PrimaryButton>
                 </div>
             </Card>
         </AuthenticatedLayout>

@@ -1,9 +1,10 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
+import { PageProps } from '@/types';
 
-export default function VerifyEmail({ status }: { status?: string }) {
+export default function VerifyEmail({ data, status }: PageProps & { status?: string }) {
     const { post, processing } = useForm({});
 
     const submit: FormEventHandler = (e) => {
@@ -13,9 +14,10 @@ export default function VerifyEmail({ status }: { status?: string }) {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Email Verification" />
-
+        <GuestLayout
+            title="Email Verification"
+            data={data}
+        >
             <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                 Thanks for signing up! Before getting started, could you verify your email address by clicking on the
                 link we just emailed to you? If you didn't receive the email, we will gladly send you another.

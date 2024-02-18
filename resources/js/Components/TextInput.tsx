@@ -44,7 +44,7 @@ export default forwardRef(function TextInput({ type = 'text', className = '', ti
                 <input
                     {...props}
                     type={customType}
-                    className={clsx(`w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-gray-200`, (type === 'password' || loading === true) && 'pr-[10%]')}
+                    className={clsx(`w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-gray-200 disabled:opacity-70 cursor-pointer focus:cursor-default`, (type === 'password' || loading === true) && 'pr-[10%]')}
                     ref={localRef}
                 />
                 <Transition

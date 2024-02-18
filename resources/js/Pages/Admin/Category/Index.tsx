@@ -5,8 +5,9 @@ import { PageProps } from '@/types';
 import CategoryType from '@/types/category';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { router } from '@inertiajs/react';
+import { ucFirst } from '@/libs/BaseHelper';
 
-export default function Index({ auth, models }: PageProps) {
+export default function Index({ data, models }: PageProps) {
   const columns = [
     {
       name: 'Name',
@@ -18,20 +19,19 @@ export default function Index({ auth, models }: PageProps) {
     },
     {
       name: 'Type',
-      selector: (row: CategoryType) => row.type ? 'Payment' : 'Purchase',
+      selector: (row: CategoryType) => ucFirst(row.type),
     },
     {
-      name: 'Type',
       selector: (row: CategoryType) => <PrimaryButton onClick={() => router.get(`/admin/category/${row.id}/edit`)} >Edit</PrimaryButton>,
     },
   ];
 
   return (
     <AuthenticatedLayout
-      auth={auth}
+      data={data}
       title="Category"
     >
-      <Card>
+      <Card className='p-4'>
         <PaginateDataTable
           title="Category"
           columns={columns}

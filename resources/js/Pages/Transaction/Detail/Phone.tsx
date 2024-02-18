@@ -8,8 +8,9 @@ import Product from '../Component/Product';
 import axios from 'axios';
 import ProductSelectedDesc from '../Component/ProductSelectedDesc';
 import { filterNumber } from '@/libs/BaseHelper';
+import { toast } from 'react-toastify';
 
-export default function PhonePrepaid({ auth, category }: any) {
+export default function PhonePrepaid({ data, category }: any) {
     const [phone, setPhone] = useState('')
     const [validatedNumber, setValidatedNumber] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -41,12 +42,13 @@ export default function PhonePrepaid({ auth, category }: any) {
             target: phone,
         });
 
-        console.log({result});
-
         if (result?.data?.data?.id) {
+            toast.success(result.data?.message);
             setIdProduct(0)
-            setPhone('')
             router.get(`/history/${result?.data?.data?.id}`)
+            return;
+        } else if (result.data?.message) {
+            toast.error(result.data?.message);
         }
 
         setLoadingSubmit(false)
@@ -85,7 +87,7 @@ export default function PhonePrepaid({ auth, category }: any) {
 
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
         >
             <Head title="Transaction" />
             <Card className='flex flex-col px-10 gap-y-3 py-3'>
@@ -106,7 +108,7 @@ export default function PhonePrepaid({ auth, category }: any) {
                 <ProductSelectedDesc description={descProduct} />
 
                 <div className='w-full text-right my-5'>
-                    <PrimaryButton disabled={!validatedNumber || loadingSubmit} onClick={() => onSubmit()}>Process</PrimaryButton>
+                    <PrimaryButton loading={loadingSubmit} disabled={!validatedNumber || loadingSubmit} onClick={() => onSubmit()}>Process</PrimaryButton>
                 </div>
             </Card>
         </AuthenticatedLayout>

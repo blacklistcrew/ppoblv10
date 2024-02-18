@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('code');
             $table->string('product_name');
             $table->double('price');
+            $table->double('commission')->default(0);
+            $table->double('total')->default(0);
             $table->string('target')->nullable();
             $table->string('mtrpln')->nullable();
             $table->text('note')->nullable();

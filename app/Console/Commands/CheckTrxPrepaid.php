@@ -83,27 +83,24 @@ class CheckTrxPrepaid extends Command
                     $customer_no = $data->customer_no;
                 }
 
-                $trx_id = $data->ref_id;
                 $product_code = $data->buyer_sku_code;
                 $sn = isset($data->sn) ? $data->sn : null;
-                $customer_id = $is_pln ? $customer_no : NULL;
-                $phone = $is_pln ? NULL : $customer_no;
                 $note = $data->message;
                 $user = $trx->user;
                 
                 if ($status == 'sukses') {
-                    $trx->token = $sn;
-                    $trx->note = "Trx $product_code " . ($is_pln ? $customer_id : $phone) . " Success SN : $sn";
-                    $trx->status = Transaction::STAT_SUCCCESS;
+                    $trx->token     = $sn;
+                    $trx->note      = "Trx $product_code $customer_no Success SN : $sn";
+                    $trx->status    = Transaction::STAT_SUCCCESS;
                 } elseif ($status == 'gagal' && $trx->status == Transaction::STAT_PROCESS) {
-                    $hargaproduk = $trx->total;
+                    $productPrice = $trx->total;
 
                     $user->refresh();
-                    $sisaSaldo = $user->saldo + $hargaproduk;
-                    $user->saldo = $sisaSaldo;
+                    $sisaSaldo      = $user->saldo + $productPrice;
+                    $user->saldo    = $sisaSaldo;
 
-                    $trx->note = (!preg_match('/saldo/i', $note) ? $note : 'Product inactive') . ". Deposit refund";
-                    $trx->status = Transaction::STAT_FAILED;
+                    $trx->note      = (!preg_match('/saldo/i', $note) ? $note : 'Product inactive') . ". Saldo refund";
+                    $trx->status    = Transaction::STAT_FAILED;
                 }
 
                 $user->save();

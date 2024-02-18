@@ -5,10 +5,10 @@ import PaginateDataTable from '@/Components/PaginateDataTable';
 import PrimaryButton from '@/Components/PrimaryButton';
 import clsx from 'clsx';
 import Transaction from '@/types/transaction';
-import { listStatus } from '@/libs/BaseHelper';
+import { formatDate, listStatus } from '@/libs/BaseHelper';
 import { PageProps } from '@/types';
 
-export default function Index({ auth }: PageProps) {
+export default function Index({ data }: PageProps) {
 
   const columns = [
     {
@@ -33,7 +33,7 @@ export default function Index({ auth }: PageProps) {
     },
     {
       name: 'Date',
-      selector: (row: Transaction) => row.created_at_formatted,
+      selector: (row: Transaction) => formatDate(row.created_at),
     },
     {
       name: '',
@@ -49,11 +49,11 @@ export default function Index({ auth }: PageProps) {
 
   return (
     <AuthenticatedLayout
-      auth={auth}
+      data={data}
       title='History'
     >
       <div className='text-3xl dark:text-white'>History</div>
-      <Card>
+      <Card className='p-4'>
         <PaginateDataTable url='/history/list' columns={columns} />
       </Card>
     </AuthenticatedLayout>

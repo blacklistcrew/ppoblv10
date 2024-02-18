@@ -3,7 +3,8 @@ export default interface ProductType {
     name: string
     code: string
     price: number
-    type: number
+    commission:number
+    total: number
     desc: string
     status: number
     created_at: string

@@ -1,4 +1,5 @@
 import { StatusType } from "@/types/transaction";
+import moment from "moment";
 
 export const listStatus: StatusType[] = [
   {
@@ -45,4 +46,18 @@ export const toDouble = (number: number) => {
 
 export const filterNumber = (number: string) => {
   return number.replace(/[^0-9\.]+/g, "")
+}
+
+export const formatDate = (datetime: string, format = 'MMM D YYYY HH:mm') => {
+  return moment(datetime).format(format)
+}
+
+export const ucFirst = (word: string) => {
+  const firstLetter = word.charAt(0)
+
+  const firstLetterCap = firstLetter.toUpperCase()
+
+  const remainingLetters = word.slice(1)
+
+  return firstLetterCap + remainingLetters;
 }

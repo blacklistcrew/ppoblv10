@@ -9,15 +9,15 @@ import axios from 'axios';
 import CategoryType from '@/types/category';
 import ProductType from '@/types/product';
 import { filterNumber } from '@/libs/BaseHelper';
+import { toast } from 'react-toastify';
+import { PageProps } from '@/types';
 
 type DetailPlnProps = {
-    auth: any,
-    csrf_token: string,
     category: CategoryType,
     products: ProductType[]
 }
 
-export default function PlnPrepaid({ auth, csrf_token, category, products }: DetailPlnProps) {
+export default function PlnPrepaid({ data, category, products }: DetailPlnProps & PageProps) {
     const [idCustomer, setIdCustomer] = useState('')
     const [validatedIdCustomer, setValidatedIdCustomer] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -34,9 +34,13 @@ export default function PlnPrepaid({ auth, csrf_token, category, products }: Det
         });
 
         if (result?.data?.data?.id) {
+            toast.success(result.data.message);
             setIdProduct(0)
             setIdCustomer('')
             router.get(`/history/${result?.data?.data?.id}`)
+            return;
+        } else if (result.data?.message) {
+            toast.error(result.data?.message);
         }
 
         setLoading(false)
@@ -61,7 +65,7 @@ export default function PlnPrepaid({ auth, csrf_token, category, products }: Det
 
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
             title='Transaction'
         >
             <Card className='flex flex-col px-10 gap-y-3 py-3'>
@@ -77,7 +81,7 @@ export default function PlnPrepaid({ auth, csrf_token, category, products }: Det
                 </div>
 
                 <div className='w-full text-right my-5'>
-                    <PrimaryButton disabled={!validatedIdCustomer || loading} onClick={() => onSubmit()}>Process</PrimaryButton>
+                    <PrimaryButton loading={loading} disabled={!validatedIdCustomer || loading} onClick={() => onSubmit()}>Process</PrimaryButton>
                 </div>
             </Card>
         </AuthenticatedLayout>

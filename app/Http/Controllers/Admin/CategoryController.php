@@ -45,10 +45,10 @@ class CategoryController extends Controller
 
         if ($request->image) {
             $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
+            $request->image->move(public_path('images/category'), $imageName);
 
             if ($category->icon) {
-                File::delete('images/' . $category->icon);
+                File::delete('images/category/' . $category->icon);
             }
         }
 

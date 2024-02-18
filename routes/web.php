@@ -3,11 +3,15 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardContrller;
+use App\Http\Controllers\Admin\DepositController as AdminDepositController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Transaction\HistoryController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\DigiflazzWebhookController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/transaction/{code}', [TransactionController::class, 'show'])->name('transaction.process');
 
     Route::get('/deposit/list', [DepositController::class, 'list'])->name('deposit.list');
-    Route::resource('deposit', DepositController::class);
+    Route::resource('deposit', DepositController::class)->except(['edit']);
 
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
     Route::get('/history/list', [HistoryController::class, 'list'])->name('history.list');
@@ -66,9 +70,26 @@ Route::group(['prefix' => 'admin',  'middleware' => ['auth', 'verified', 'role:a
     Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
     Route::put('category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
 
-    Route::get('/brand', [BrandController::class, 'index'])->name('admin.brand');
     Route::get('/product', [ProductController::class, 'index'])->name('admin.product');
     Route::get('/product/list', [ProductController::class, 'list'])->name('admin.product.list');
+    Route::get('/product/{product}', [ProductController::class, 'show'])->name('admin.product.show');
+    Route::put('/product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
+
+    Route::get('/transaction', [AdminTransactionController::class, 'index'])->name('admin.transaction');
+    Route::get('/transaction/list', [AdminTransactionController::class, 'list'])->name('admin.transaction.list');
+    Route::get('/transaction/{transaction}', [AdminTransactionController::class, 'show'])->name('admin.transaction.show');
+
+    Route::get('/deposit', [AdminDepositController::class, 'index'])->name('admin.deposit');
+    Route::get('/deposit/list', [AdminDepositController::class, 'list'])->name('admin.deposit.list');
+    Route::get('/deposit/{deposit}', [AdminDepositController::class, 'show'])->name('admin.show');
+    Route::put('/deposit/{deposit}', [AdminDepositController::class, 'update'])->name('admin.update');
+
+    Route::get('/setting', [SettingController::class, 'index'])->name('admin.setting');
+    Route::put('/setting', [SettingController::class, 'update'])->name('admin.setting.update');
+});
+
+Route::group(['prefix' => 'webhook'], function () {
+    Route::post('/digiflazz', [DigiflazzWebhookController::class, 'listen']);
 });
 
 require __DIR__ . '/auth.php';

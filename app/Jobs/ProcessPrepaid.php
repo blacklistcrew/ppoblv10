@@ -43,7 +43,7 @@ class ProcessPrepaid implements ShouldQueue
         $df = new DigiflazzHelper();
 
         try {
-            $today = Carbon::today()->setTimeZone('Asia/Jakarta');
+            $today = Carbon::today();
 
             $sequence = (int) Transaction::where('code', $transaction->code)
                 ->where(function ($q) use ($transaction) {
@@ -55,46 +55,8 @@ class ProcessPrepaid implements ShouldQueue
 
             $order = $df->order($transaction->id, $transaction->code, $sequence, $transaction->target, $transaction->mtrpln);
 
-            $result = json_decode($order);
+            $transaction->api_response = $order;
             $transaction->sequence  = $sequence;
-
-            if ($result->success == false && $result->connected == false) {
-                // if(preg_match('/(tidak support.*multi|saldo.*saldo.*cukup|Cut Off)/i',$result->message))
-                // {
-                //     throw new Exception('Tidak dapat diproses (1)',0);
-                // }
-                // else
-                // {
-                throw new Exception($result->message, 0);
-                // }
-            }
-
-            if ($result->success == false && $result->connected == true) {
-                // if(preg_match('/(tidak support.*multi|saldo.*cukup|seller.*gangguan|Cut Off)/i',$result->message))
-                // {
-                //     throw new Exception('Tidak dapat diproses (2)',0);
-                // }
-                // else
-                // {
-                throw new Exception($result->message, 1);
-                // }
-            }
-
-            if (!is_null($result->response)) {
-                $data =  $result->response->data;
-                $status = strtolower($data->status);
-
-                if ($status == 'gagal') {
-                    // if(preg_match('/(tidak support.*multi|saldo.*cukup|Cut Off)/i',$data->message))
-                    // {
-                    //     throw new Exception('Tidak dapat diproses (3)',0);
-                    // }
-                    // else
-                    // {
-                    throw new Exception($data->message, 1);
-                    // }
-                }
-            }
         } catch (Exception $e) {
             if ($e instanceof QueryException) {
                 Log::error($e);

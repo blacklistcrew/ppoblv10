@@ -11,15 +11,15 @@ import { toast } from 'react-toastify';
 import InputLabel from '@/Components/InputLabel';
 import SelectInput from '@/Components/SelectInput';
 import { filterNumber } from '@/libs/BaseHelper';
+import { PageProps } from '@/types';
 
 type DetailPhoneProps = {
-    auth: any,
     category: CategoryType,
     products: ProductType[],
     isPln: boolean
 }
 
-export default function DetailPhone({ auth, category, products, isPln }: DetailPhoneProps) {
+export default function DetailPhone({ data, category, products, isPln }: DetailPhoneProps & PageProps) {
     const [idProduct, setIdProduct] = useState(0)
     const [idCustomer, setIdCustomer] = useState('')
     const [validatedNumber, setValidatedNumber] = useState(false)
@@ -33,13 +33,19 @@ export default function DetailPhone({ auth, category, products, isPln }: DetailP
         if (!loading) {
             setLoading(true)
 
-            const res = await axios.post('/transaction/postpaid', {
+            const result = await axios.post('/transaction/postpaid', {
                 id_customer: idCustomer,
                 id_product: idProduct,
             })
 
-            if (res.status === 200 && res.data?.data?.id) {
-                router.get(`/history/${res.data.data.id}`)
+            if (result?.data?.data?.id) {
+                toast.success(result.data.message);
+                setIdProduct(0)
+                setIdCustomer('')
+                router.get(`/history/${result?.data?.data?.id}`)
+                return;
+            } else if (result.data?.message) {
+                toast.error(result.data?.message);
             }
 
             setLoading(false)
@@ -74,7 +80,7 @@ export default function DetailPhone({ auth, category, products, isPln }: DetailP
 
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
             title="Transaction"
         >
             <Card className='flex flex-col px-10 gap-y-3 py-3'>
@@ -91,7 +97,7 @@ export default function DetailPhone({ auth, category, products, isPln }: DetailP
                 <TextInput title={isPln ? 'Meter Number' : 'ID Customer'} value={idCustomer} loading={loading} errorMessage={errorMessage} isFocused={true} disabled={loading} onChange={(e: any) => handleChangeNumber(e.target.value, idProduct)} className='md:w-1/3 mr-3' />
 
                 <div className='w-full text-right my-5'>
-                    <PrimaryButton disabled={!validatedNumber || loading} onClick={() => onSubmit()}>{loading ? 'Loading...' : 'Process'}</PrimaryButton>
+                    <PrimaryButton loading={loading} disabled={!validatedNumber || loading} onClick={() => onSubmit()}>Process</PrimaryButton>
                 </div>
             </Card>
         </AuthenticatedLayout>

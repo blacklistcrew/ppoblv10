@@ -14,6 +14,7 @@ import { PageProps } from '@/types';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import { FaCog, FaHistory } from 'react-icons/fa';
 
 type ListMenuProps = {
     title: string,
@@ -38,7 +39,7 @@ const ListMenu = ({ Icon, link, title, active }: ListMenuProps) => {
     )
 }
 
-export default function Authenticated({ auth, title, children }: PropsWithChildren<{ title?: string }> & PageProps) {
+export default function Authenticated({ data, title, children }: PropsWithChildren<{ title?: string }> & PageProps) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
@@ -46,22 +47,17 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
             <nav className="flex bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                </Link>
-                            </div>
-
-                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Home
-                                </NavLink>
-                            </div> */}
+                        <div className="flex items-center">
+                            <Link href="/">
+                                <ApplicationLogo src={`/images/${data.setting?.logo}`} className="block h-14 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                            </Link>
                         </div>
 
                         <Head title={title} />
-                        <ToastContainer />
+                        <ToastContainer
+                            autoClose={3000}
+                            pauseOnHover={false}
+                        />
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             <div className="ms-3 relative">
@@ -72,7 +68,7 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {auth.user.name}
+                                                {data.user.name}
 
                                                 <svg
                                                     className="ms-2 -me-0.5 h-4 w-4"
@@ -93,8 +89,7 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
                                         {
-                                            route().current('admin*') &&
-                                            <Dropdown.Link href={'/transaction'}>Member</Dropdown.Link>
+                                            route().current('admin*') && <Dropdown.Link href={'/transaction'}>Member</Dropdown.Link>
                                         }
                                         <Dropdown.Link href={route('logout')} method="post" as="button">Log Out</Dropdown.Link>
                                     </Dropdown.Content>
@@ -138,16 +133,14 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                         <div className="px-4">
                             <div className="font-medium text-base text-gray-800 dark:text-gray-200">
-                                {auth.user.name}
+                                {data.user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
+                            <div className="font-medium text-sm text-gray-500">{data.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Log Out</ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
@@ -160,9 +153,13 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
                             route().current('admin*') ?
                                 <>
                                     <ListMenu Icon={GoHome} link='/admin' title='Dashboard' active='admin' />
+                                    <li className="px-6 text-sm dark:text-gray-400 mt-2">History</li >
+                                    <ListMenu Icon={FaHistory} link='/admin/transaction' title='Transaction' active='admin.transaction*' />
+                                    <ListMenu Icon={FaHistory} link='/admin/deposit' title='Deposit' active='admin.deposit*' />
+                                    <li className="px-6 text-sm dark:text-gray-400 mt-2">Master</li >
                                     <ListMenu Icon={BiCategory} link='/admin/category' title='Category' active='admin.category*' />
-                                    <ListMenu Icon={BiCategory} link='/admin/brand' title='Brand' active='admin.brand*' />
                                     <ListMenu Icon={BiCategory} link='/admin/product' title='Product' active='admin.product*' />
+                                    <ListMenu Icon={FaCog} link='/admin/setting' title='Setting' active='admin.setting*' />
                                 </>
                                 :
                                 <>
@@ -172,21 +169,6 @@ export default function Authenticated({ auth, title, children }: PropsWithChildr
                                     <li className="px-6 text-sm dark:text-gray-400 mt-2">Administrator</li >
                                     <ListMenu Icon={BiCategory} link='/admin' title='Admin Panel' />
                                 </>
-                        }
-                        {
-                            // Array.from({ length: 33 }, (v, i) => i).map((d: any) => {
-                            //     return (
-                            //         <li key={d} className="rounded-sm">
-                            //             <Link
-                            //                 href="#"
-                            //                 className="flex items-center p-2 space-x-3 rounded-md"
-                            //             >
-                            //                 <SlLogout />
-                            //                 <span>Logout{d}</span>
-                            //             </Link>
-                            //         </li>
-                            //     )
-                            // })
                         }
                     </ul>
                 </aside>

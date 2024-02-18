@@ -190,32 +190,35 @@ class TransactionController extends Controller
 
         try {
             $oldBalance = $user->saldo;
-            $newBalance = $oldBalance - $product->price;
+            $newBalance = $oldBalance - $product->total;
 
             $user->saldo = $newBalance;
             $user->save();
 
-            $trx = new Transaction();
-            $trx->code  = $product->code;
-            $trx->product_name  = $product->name;
-            $trx->total = $product->price;
-            $trx->target = $v['target'] ?? null;
+            $trx                    = new Transaction();
+            $trx->code              = $product->code;
+            $trx->product_name      = $product->name;
+            $trx->price             = $product->price;
+            $trx->commission        = $product->commission;
+            $trx->total             = $product->total;
+            $trx->note              = "Processing";
+            $trx->status            = Transaction::STAT_PROCESS;
+            $trx->mst_product_id    = $product->id;
+            $trx->user_id           = $user->id;
+            $trx->target            = $v['target'] ?? null;
 
             if (!empty($v['id_customer'])) {
-                $trx->mtrpln = $v['id_customer'];
-                $trx->target    = null;
+                $trx->mtrpln        = $v['id_customer'];
+                $trx->target        = null;
             }
 
-            $trx->note = "Processing";
-            $trx->status = Transaction::STAT_PROCESS;
-            $trx->mst_product_id = $product->id;
-            $trx->user_id = $user->id;
             $trx->save();
 
             dispatch(new ProcessPrepaid($trx));
 
             return response()->json([
-                'success'   => true,
+                'success' => true,
+                'message' => 'Transaction success. Please wait',
                 'data' => [
                     'id' => $trx->id,
                 ],
@@ -320,7 +323,7 @@ class TransactionController extends Controller
                 DB::rollBack();
                 return response()->json([
                     'success'   => false,
-                    'message'   => 'Sistem pembayaran error, mohon laporkan admin supaya bisa segera ditangani. Terima kasih'
+                    'message'   => 'Payment system is having problems. Please contact admin'
                 ]);
             }
 
@@ -343,6 +346,8 @@ class TransactionController extends Controller
                 'target'       => $bill->customer_no,
                 'name'         => ucwords($bill->customer_name),
                 'note'         => $period,
+                'price'        => $bill->price,
+                'commission'   => $bill->selling_price - $bill->price,
                 'total'        => $bill->selling_price,
                 'status'       => Transaction::STAT_WAITING_PAYMENT,
                 'api_response' => $billJson,
@@ -352,7 +357,7 @@ class TransactionController extends Controller
 
             return response()->json([
                 'success'   => true,
-                'message'   => 'Success checking',
+                'message'   => "This is your bill. Press button 'Pay Now' to pay",
                 'data'      => ['id' => $trx->id]
             ]);
         } catch (Exception $e) {
@@ -464,11 +469,13 @@ class TransactionController extends Controller
             }
             $payBill = $payBill->response->data;
 
-            $transaction->token  =  $payBill->sn;
-            $transaction->api_response = $payBillJson;
-            $transaction->total = $payBill->selling_price;
-            $transaction->status = Transaction::STAT_SUCCCESS;
-            $transaction->note = 'Pay bill ' . $transaction->product_name . ' ' . $transaction->target . ' Period: ' . $transaction->note . ' - ' . $payBill->message;
+            $transaction->token         = $payBill->sn;
+            $transaction->api_response  = $payBillJson;
+            $transaction->price         = $payBill->price;
+            $transaction->commission    = $payBill->selling_price - $payBill->price;
+            $transaction->total         = $payBill->selling_price;
+            $transaction->status        = Transaction::STAT_SUCCCESS;
+            $transaction->note          = 'Pay bill ' . $transaction->product_name . ' ' . $transaction->target . ' Period: ' . $transaction->note . ' - ' . $payBill->message;
             $transaction->save();
 
             $oldBalance = $user->saldo;

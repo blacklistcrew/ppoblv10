@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->double('price');
+            $table->double('commission')->default(0);
+            $table->double('total')->default(0);
             $table->text('desc');
             $table->tinyInteger('status');
             $table->foreignIdFor(MstCategory::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();

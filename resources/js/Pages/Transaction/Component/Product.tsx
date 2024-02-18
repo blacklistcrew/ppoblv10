@@ -24,7 +24,7 @@ function Product({ data, idProduct, onClick }: ProductProps) {
                 {!data.status && <div className='py-1 px-2 bg-red-400 text-white text-xs text-center inline rounded-3xl'>Inactive</div>}
                 <div className='text-sm'>{data.name}</div>
             </div>
-            <div className='text-sm'>{rupiah(data.price)}</div>
+            <div className='text-sm'>{rupiah(data.total)}</div>
         </div>
     )
 }

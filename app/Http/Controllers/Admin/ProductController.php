@@ -32,4 +32,34 @@ class ProductController extends Controller
 
         return response()->json($models);
     }
+
+    public function show(Request $request, MstProduct $product): Response
+    {
+        return Inertia::render('Admin/Product/Show', compact('product'));
+    }
+
+    public function update(Request $request, MstProduct $product): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string'],
+            'price' => ['required', 'int'],
+            'commission' => ['nullable', 'int'],
+        ]);
+
+        try {
+            $product->fill($validated);
+            $product->total = $product->price + $product->commission;
+            $product->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Success update product'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something wrong.' . $th->getMessage(),
+            ]);
+        }
+    }
 }

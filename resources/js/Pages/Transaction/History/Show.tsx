@@ -3,11 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Card from '@/Components/Card'
 import Transaction, { StatusType } from '@/types/transaction'
 import clsx from 'clsx';
-import { listStatus, rupiah } from '@/libs/BaseHelper';
+import { formatDate, listStatus, rupiah } from '@/libs/BaseHelper';
 import axios from 'axios';
 import { router } from '@inertiajs/react';
 import CategoryType from '@/types/category';
 import ProductType from '@/types/product';
+import { PageProps } from '@/types';
 
 type ItemDataProps = {
   label: string
@@ -29,13 +30,12 @@ const BtnSubmit = ({ label, loading, className = '', ...props }: ButtonHTMLAttri
 }
 
 type ShowProps = {
-  auth: any,
   transaction: Transaction,
   category: CategoryType,
   product: ProductType
 }
 
-export default function Show({ auth, transaction, category }: ShowProps) {
+export default function Show({ data, transaction, category }: PageProps & ShowProps) {
   const [loading, setLoading] = useState(false)
 
   const status: StatusType = listStatus[transaction.status];
@@ -51,7 +51,7 @@ export default function Show({ auth, transaction, category }: ShowProps) {
 
   return (
     <AuthenticatedLayout
-      auth={auth}
+      data={data}
     >
       <div className='text-3xl dark:text-white'>History</div>
       <div className='flex justify-between gap-x-10'>
@@ -62,7 +62,7 @@ export default function Show({ auth, transaction, category }: ShowProps) {
             <ItemData label='Order ID' value={transaction.id} />
             <div className='p-3 text-right'>
               <div className='dark:text-white'>Date</div>
-              <div className='dark:text-white'>{transaction.created_at_formatted}</div>
+              <div className='dark:text-white'>{formatDate(transaction.created_at)}</div>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ export default function Show({ auth, transaction, category }: ShowProps) {
                 listStatus.map((d: StatusType, i: number) => {
                   return (
                     <tr key={i}>
-                      <td className='pb-3'><div className={clsx('px-4 py-2 rounded-xl text-white text-center', d.color)}>{d.label}</div></td>
+                      <td className='pb-3'><div className={clsx(`px-4 py-2 rounded-xl text-white text-center`, d.color)}>{d.label}</div></td>
                       <td className='pb-3 pl-10 dark:text-white'>{d.desc}</td>
                     </tr>
                   )

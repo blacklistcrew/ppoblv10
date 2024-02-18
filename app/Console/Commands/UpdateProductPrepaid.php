@@ -105,9 +105,9 @@ class UpdateProductPrepaid extends Command
                 $category = MstCategory::firstOrNew(['slug' => $slugCategory]);
 
                 if (empty($category->name)) {
-                    $category->name = $productCategory;
-                    $category->type = 'prepaid';
-                    $category->status = 1;
+                    $category->name     = $productCategory;
+                    $category->type     = 'prepaid';
+                    $category->status   = 1;
                     $category->save();
                 }
 
@@ -123,19 +123,20 @@ class UpdateProductPrepaid extends Command
                 }
 
                 $product = MstProduct::firstOrNew([
-                    'mst_category_id' => $category->id,
-                    'mst_brand_id' => $brand->id,
-                    'code' => $p->buyer_sku_code,
+                    'mst_category_id'   => $category->id,
+                    'mst_brand_id'      => $brand->id,
+                    'code'              => $p->buyer_sku_code,
                 ]);
 
                 if (empty($product->name)) {
                     $product->name = strtoupper($p->product_name);
                 }
 
-                $product->desc = $desc;
-                $productStatus = ($p->buyer_product_status == true) && ($p->seller_product_status == true) && ($p->unlimited_stock == true || $p->stock > 0);
-                $product->price = $p->price;
-                $product->status = $productStatus;
+                $product->desc          = $desc;
+                $product->price         = $p->price;
+                $product->commission    = $product->commission ?: 0;
+                $product->total         = $p->price + $product->commission;
+                $product->status        = ($p->buyer_product_status == true) && ($p->seller_product_status == true) && ($p->unlimited_stock == true || $p->stock > 0);
                 $product->save();
 
                 DB::commit();

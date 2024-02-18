@@ -8,8 +8,9 @@ import axios from 'axios';
 import TextInput from '@/Components/TextInput';
 import ImagePreview from '@/Components/ImagePreview';
 import { toast } from 'react-toastify';
+import { router } from '@inertiajs/react';
 
-export default function Edit({ auth, category }: PageProps & { category: CategoryType }) {
+export default function Edit({ data, category }: PageProps & { category: CategoryType }) {
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState(category)
 
@@ -28,8 +29,12 @@ export default function Edit({ auth, category }: PageProps & { category: Categor
 
         const result = await axios.post(`/admin/category/${category.id}`, formData)
 
-        if (result.data?.message) {
-            toast(result.data?.message);
+        if (result.data?.success) {
+            toast.success(result.data?.message);
+            router.get('/admin/category')
+            return;
+        } else {
+            toast.error(result.data?.message);
         }
 
         setLoading(false)
@@ -42,14 +47,14 @@ export default function Edit({ auth, category }: PageProps & { category: Categor
             break;
         case 'string':
             if (form.icon) {
-                urlPreview = `/images/${form.icon}`;
+                urlPreview = `/images/category/${form.icon}`;
             }
             break;
     }
 
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
             title="Update Category"
         >
             <Card className='px-8 py-10 flex flex-col gap-y-5'>
@@ -60,7 +65,7 @@ export default function Edit({ auth, category }: PageProps & { category: Categor
                 <TextInput title='Icon' type='file' accept='image/*' onChange={handleInputChange} className='w-full md:w-1/2' />
                 <div id='galleryID'>
                     {
-                        urlPreview && <ImagePreview src={urlPreview} width='500' />
+                        urlPreview && <ImagePreview src={urlPreview} height={300} />
                     }
                 </div>
 

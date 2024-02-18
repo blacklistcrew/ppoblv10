@@ -1,6 +1,8 @@
 export default interface TransactionType {
     id: number
     product_name: string
+    price: number
+    commission: number
     total: number
     note: string
     mtrpln: string

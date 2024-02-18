@@ -59,10 +59,6 @@ class UpdateProductPostpaid extends Command
             return;
         }
 
-        echo '<pre>';
-        print_r($products->response->data);
-        die;
-
         foreach ($products->response->data as $p) {
             DB::beginTransaction();
 
@@ -71,9 +67,9 @@ class UpdateProductPostpaid extends Command
                 $category = MstCategory::firstOrNew(['slug' => $slug]);
 
                 if (empty($category->name)) {
-                    $category->name = ucwords($p->brand);
-                    $category->type = 'postpaid';
-                    $category->status = 1;
+                    $category->name     = ucwords($p->brand);
+                    $category->type     = 'postpaid';
+                    $category->status   = 1;
                     $category->save();
                 }
 
@@ -81,7 +77,7 @@ class UpdateProductPostpaid extends Command
                     'name' => $p->brand,
                     'mst_category_id' => $category->id,
                 ]);
-                
+
                 if (empty($brand->created_at)) {
                     $brand->status = 1;
                     $brand->save();
@@ -94,8 +90,9 @@ class UpdateProductPostpaid extends Command
                 $product->name = $p->product_name;
                 $product->mst_category_id = $category->id;
                 $product->mst_brand_id = $brand->id;
-                // $product->code = $p->buyer_sku_code;
-                $product->price = $p->price ?? 0;
+                $product->price = 0;
+                $product->commission = $p->commission ?? 0;
+                $product->total = 0;
                 $product->desc = $p->desc;
                 $product->status = ($p->buyer_product_status === true && $p->seller_product_status === true) ? 1 : 0;
                 $product->save();

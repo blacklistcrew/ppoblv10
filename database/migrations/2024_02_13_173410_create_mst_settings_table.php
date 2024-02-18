@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->double('balance')->default(0);
             $table->unsignedTinyInteger('status')->default(1);
+            $table->string('logo')->nullable();
             $table->string('bank')->nullable();
             $table->string('account_number')->nullable();
             $table->string('api_username')->nullable();

@@ -26,7 +26,8 @@ class HistoryController extends Controller
         $q = $validated['q'] ?? '';
         $perPage = $validated['per_page'] ?: 10;
 
-        $models = Transaction::where(function ($query) use ($q) {
+        $models = Transaction::where('user_id', $request->user()->id)
+        ->where(function ($query) use ($q) {
             $query->orWhere('note', 'LIKE', "%$q%")
                 ->orWhere('product_name', 'LIKE', "%$q%")
                 ->orWhere('mtrpln', 'LIKE', "%$q%")

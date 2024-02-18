@@ -5,8 +5,7 @@ import 'photoswipe/style.css';
 type ImagePreviewProps = {
     src: string
     galleryID?: string,
-    width?: string,
-    height?: string,
+    height?: number,
 }
 
 const getImageDimensions = (src: string) => {
@@ -24,7 +23,7 @@ const getImageDimensions = (src: string) => {
     });
 };
 
-export default function ImagePreview({ src, galleryID = 'galleryID', width, height }: ImagePreviewProps) {
+export default function ImagePreview({ src, galleryID = 'galleryID', height }: ImagePreviewProps) {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
@@ -63,7 +62,7 @@ export default function ImagePreview({ src, galleryID = 'galleryID', width, heig
             target="_blank"
             rel="noreferrer"
         >
-            <img alt='upload-image' src={src} width={width ? width : dimensions.width} height={height ? height : dimensions.height} />
+            <img alt='upload-image' src={src} className={`w-auto h-full`} style={{maxHeight: `${height ? height : dimensions.height}px`}} />
         </a>
     );
 }

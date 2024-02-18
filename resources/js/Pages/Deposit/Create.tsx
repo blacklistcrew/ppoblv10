@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { router } from '@inertiajs/react';
 import { toInteger } from '@/libs/BaseHelper';
 
-export default function Create({ auth }: PageProps) {
+export default function Create({ data }: PageProps) {
     const [loading, setLoading] = useState(false);
     const [nominal, setNominal] = useState<number>(0);
 
@@ -35,12 +35,9 @@ export default function Create({ auth }: PageProps) {
         setNominal(val >= 0 ? val : nominal)
     }
 
-    console.log({ nominal });
-
-
     return (
         <AuthenticatedLayout
-            auth={auth}
+            data={data}
             title="Deposit"
         >
             <h3 className='text-3xl font-medium dark:text-white'>Create Deposit</h3>

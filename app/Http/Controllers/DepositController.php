@@ -10,9 +10,7 @@ use Inertia\Inertia;
 
 class DepositController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return Inertia::render('Deposit/Index');
@@ -38,18 +36,11 @@ class DepositController extends Controller
         return response()->json($deposits);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('Deposit/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -79,35 +70,58 @@ class DepositController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(TrxDeposit $deposit)
     {
         return Inertia::render('Deposit/Show', compact('deposit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TrxDeposit $deposit)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, TrxDeposit $deposit)
     {
-        //
+        $userId = $request->user()->id;
+
+        if ($userId == $deposit->user_id && $deposit->status = TrxDeposit::STAT_WAITING_PAYMENT) {
+            $request->validate([
+                'image' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048']
+            ]);
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/deposit'), $imageName);
+
+            try {
+                $deposit->status = TrxDeposit::STAT_WAITING_APPROVAL;
+                $deposit->image = $imageName;
+                $deposit->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Success update deposit'
+                ]);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Please try again. ' . $th->getMessage(),
+                ]);
+            }
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TrxDeposit $deposit)
+    public function destroy(Request $request, TrxDeposit $deposit)
     {
-        //
+        $userId = $request->user()->id;
+
+        if ($userId == $deposit->user_id && $deposit->status = TrxDeposit::STAT_WAITING_PAYMENT) {
+            $deposit->status = TrxDeposit::STAT_FAILED;
+            $deposit->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Deposit success cancel',
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Deposit cannot cancel',
+        ]);
     }
 }
