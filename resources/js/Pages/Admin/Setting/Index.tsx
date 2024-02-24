@@ -83,10 +83,10 @@ export default function Index({ data, model }: PageProps & { model: SettingType 
         </Switch>
       </div>
 
-      <Card className='p-8'>
-        <div className='flex flex-col gap-y-5 w-1/3'>
+      <Card className='p-6 sm:px-8'>
+        <div className='flex flex-col gap-y-5'>
           <div className='text-2xl dark:text-white'>App Logo</div>
-          <TextInput type='file' accept='image/png' onChange={handleInputChange} />
+          <TextInput type='file' accept='image/png' onChange={handleInputChange} className='max-w-xl' />
           <div id='galleryID'>
             {
               urlPreview && <ImagePreview src={urlPreview} height={150} />
@@ -95,18 +95,18 @@ export default function Index({ data, model }: PageProps & { model: SettingType 
         </div>
       </Card>
 
-      <Card className='p-8 flex flex-col gap-y-5'>
+      <Card className='p-6 sm:px-8 flex flex-col gap-y-5'>
         <div className='text-2xl dark:text-white'>Bank Transfer</div>
-        <div className='grid grid-cols-2 gap-5'>
+        <div className='grid lg:grid-cols-2 gap-5'>
           <TextInput disabled={loading} title='Bank Name' name='bank' value={form.bank} onChange={updateForm} />
 
           <TextInput disabled={loading} title='Account Number' name='account_number' value={form.account_number} onChange={updateForm} />
         </div>
       </Card>
 
-      <Card className='p-8 flex flex-col gap-y-5'>
+      <Card className='p-6 sm:px-8 flex flex-col gap-y-5'>
         <div className='text-2xl dark:text-white'>API Digiflazz</div>
-        <div className='grid grid-cols-2 gap-5'>
+        <div className='grid lg:grid-cols-2 gap-5'>
           <SelectInput
             title='Mode'
             disabled={loading}

@@ -22,17 +22,13 @@ class SettingController extends Controller
         return Inertia::render('Admin/Setting/Index', compact('model'));
     }
 
-
     public function update(Request $request): JsonResponse
     {
-        // $validated = $request->validate([
-        // ]);
-
         $validator = Validator::make($request->all(), [
-            'logo' => ['nullable', 'image:png'],
+            'logo' => ['nullable', 'image', 'mimes:png'],
             'bank' => ['required', 'string'],
             'account_number' => ['required', 'string'],
-            'use_prod' => ['required', 'int'],
+            'use_prod' => ['required', Rule::in([0, 1])],
             'api_username' => ['nullable', 'string'],
             'api_dev_key' => ['nullable', 'string'],
             'api_prod_key' => ['nullable', 'string'],
@@ -53,24 +49,16 @@ class SettingController extends Controller
 
         if ($request->image) {
             $imageName = 'logo.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
 
             if ($model->logo) {
                 File::delete('images/' . $model->logo);
             }
 
+            $request->image->move(public_path('images'), $imageName);
             $model->logo = $imageName;
         }
 
-
         try {
-            // $model->bank            = $validated['bank'] ? $validated['bank'] : $model->bank;
-            // $model->account_number  = $validated['account_number'] ? $validated['account_number'] : $model->account_number;
-            // $model->api_username    = $validated['api_username'] ? $validated['api_username'] : $model->api_username;
-            // $model->api_dev_key     = $validated['api_dev_key'] ? $validated['api_dev_key'] : $model->api_dev_key;
-            // $model->api_prod_key    = $validated['api_prod_key'] ? $validated['api_prod_key'] : $model->api_prod_key;
-            // $model->api_secret      = $validated['api_secret'] ? $validated['api_secret'] : $model->api_secret;
-            // $model->use_prod        = $validated['use_prod'] ? $validated['use_prod'] : $model->use_prod;
             $model->save();
 
             return response()->json([

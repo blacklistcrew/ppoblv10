@@ -54,8 +54,8 @@ export default function Show({ data, transaction, category }: PageProps & ShowPr
       data={data}
     >
       <div className='text-3xl dark:text-white'>History</div>
-      <div className='flex justify-between gap-x-10'>
-        <Card className='px-4 py-3 w-full md:w-1/2'>
+      <div className='grid lg:grid-cols-2 gap-x-10 gap-y-5'>
+        <Card className='px-4 py-3'>
           <ItemData label={category.name} value={transaction.product_name} />
 
           <div className='flex justify-between'>
@@ -88,7 +88,7 @@ export default function Show({ data, transaction, category }: PageProps & ShowPr
           }
         </Card>
 
-        <Card className='px-4 py-3 w-full md:w-1/2'>
+        <Card className='px-4 py-3'>
           <div className='dark:text-white mb-10 text-xl'>Transaction Status Note</div>
           <table>
             <tbody>

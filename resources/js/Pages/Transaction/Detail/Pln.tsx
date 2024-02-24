@@ -68,13 +68,13 @@ export default function PlnPrepaid({ data, category, products }: DetailPlnProps 
             data={data}
             title='Transaction'
         >
-            <Card className='flex flex-col px-10 gap-y-3 py-3'>
+            <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
-                <TextInput title='Meter Number' disabled={loading} value={idCustomer} errorMessage={errorMessage} isFocused={true} onChange={(e: any) => handleChangeNumber(e.target.value)} className='w-full md:w-1/3' />
+                <TextInput title='Meter Number' disabled={loading} value={idCustomer} errorMessage={errorMessage} isFocused={true} onChange={(e: any) => handleChangeNumber(e.target.value)} className='max-w-xl' />
 
                 <label className='dark:text-white'>Nominal</label>
-                <div className='flex-wrap inline-flex min-w-full gap-8 max-h-96 overflow-y-auto rounded-sm'>
+                <div className='grid lg:grid-cols-5 md:grid-cols-3 gap-8 max-h-96 overflow-y-auto rounded-sm pr-5'>
                     {
                         products.sort((a, b) => a.price - b.price).map((d: any, i: number) => <Product key={i} data={d} idProduct={idProduct} onClick={() => d.status && handleSelectedPackage(d)} />)
                     }

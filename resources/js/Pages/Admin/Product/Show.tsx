@@ -48,11 +48,11 @@ export default function Show({ data, product }: PageProps & { product: ProductTy
 
     return (
         <AuthenticatedLayout data={data}>
-            <div className='flex justify-between items-center'>
+            <div className='flex flex-col md:flex-row md:justify-between gap-y-5 items-center'>
                 <div className="text-2xl dark:text-white">Update Product : {product.name}</div>
                 <div className='text-xl dark:text-white'>Selling Price: {rupiah(form.price + form.commission)}</div>
             </div>
-            <Card className='p-8 grid grid-cols-2 gap-5'>
+            <Card className='grid lg:grid-cols-2 gap-5 md:px-10 p-6'>
                 <TextInput disabled={loading} title='Name' name='name' value={form.name} onChange={updateForm} />
 
                 <TextInput disabled={loading} title='Price' name='price' value={toInteger(form.price)} onChange={updateForm} />

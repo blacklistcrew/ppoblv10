@@ -48,7 +48,7 @@ export default function Authenticated({ data, title, children }: PropsWithChildr
                 <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex items-center">
-                            <Link href="/">
+                            <Link href="/transaction">
                                 <ApplicationLogo src={`/images/${data.setting?.logo}`} className="block h-14 w-auto fill-current text-gray-800 dark:text-gray-200" />
                             </Link>
                         </div>
@@ -89,7 +89,7 @@ export default function Authenticated({ data, title, children }: PropsWithChildr
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
                                         {
-                                            route().current('admin*') && <Dropdown.Link href={'/transaction'}>Member</Dropdown.Link>
+                                            route().current('admin*') && <Dropdown.Link href={'/transaction'}>Member Area</Dropdown.Link>
                                         }
                                         <Dropdown.Link href={route('logout')} method="post" as="button">Log Out</Dropdown.Link>
                                     </Dropdown.Content>
@@ -123,31 +123,41 @@ export default function Authenticated({ data, title, children }: PropsWithChildr
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
+                <div className={clsx(showingNavigationDropdown ? 'block' : 'hidden', 'sm:hidden')}>
+                    <div className="pt-4 px-4 pb-1 border-b border-gray-200 dark:border-gray-600">
+                        <div className="font-medium text-base text-gray-800 dark:text-gray-200">
+                            {data.user.name}
+                        </div>
+                        <div className="font-medium text-sm text-gray-500">{data.user.email}</div>
                     </div>
 
-                    <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">
-                                {data.user.name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">{data.user.email}</div>
-                        </div>
+                    {
+                        route().current('admin*') ?
+                            <>
+                                <ResponsiveNavLink href='/admin' >Dashboard</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin/transaction'>Transaction</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin/deposit'>Deposit</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin/category'>Category</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin/product'>Product</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin/setting'>Setting</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/transaction'>Member Area</ResponsiveNavLink>
+                            </>
+                            :
+                            <>
+                                <ResponsiveNavLink href='/transaction' title='Home'>Home</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/history' title='History'>History</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/deposit' title='Deposit'>Deposit</ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                                <ResponsiveNavLink href='/admin' title='Admin Panel'>Admin Panel</ResponsiveNavLink>
+                            </>
+                    }
 
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">Log Out</ResponsiveNavLink>
-                        </div>
-                    </div>
+                    <ResponsiveNavLink method="post" href={route('logout')} as="button">Log Out</ResponsiveNavLink>
                 </div>
             </nav>
 
             <div className="flex flex-1">
-                <aside className="md:flex flex-col py-3 bg-white dark:bg-gray-800 shadow w-80 hidden overflow-y-auto h-[93vh]">
+                <aside className="hidden sm:flex sm:flex-col py-3 bg-white dark:bg-gray-800 shadow w-80 transition overflow-y-auto h-[93vh]">
                     <ul className="">
                         {
                             route().current('admin*') ?

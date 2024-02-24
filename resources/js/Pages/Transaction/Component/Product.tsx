@@ -13,7 +13,7 @@ function Product({ data, idProduct, onClick }: ProductProps) {
             onClick={onClick}
             className={
                 clsx(
-                    'flex flex-col justify-between items-center gap-y-2 px-4 py-3 mr-4 w-[calc(100%/6)] transition duration-200 ease-in rounded-lg',
+                    'flex flex-col justify-between items-center gap-y-2 px-4 py-3 transition duration-200 ease-in rounded-lg',
                     data.status && idProduct !== data.id ? 'hover:bg-green-300 dark:hover:bg-gray-500' : '',
                     data.status ? 'bg-green-200 dark:bg-gray-400 hover:cursor-pointer' : 'bg-red-200',
                     idProduct === data.id ? 'border-2 border-none bg-green-400 dark:bg-gray-600 dark:text-white' : ''

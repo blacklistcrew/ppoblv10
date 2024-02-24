@@ -57,12 +57,12 @@ export default function Edit({ data, category }: PageProps & { category: Categor
             data={data}
             title="Update Category"
         >
-            <Card className='px-8 py-10 flex flex-col gap-y-5'>
+            <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <div className='text-2xl dark:text-white mb-2'>Edit</div>
 
-                <TextInput title='Name' value={form.name} onChange={(e) => setForm((state) => ({ ...state, 'name': e.target.value }))} className='w-full md:w-1/2' />
+                <TextInput title='Name' value={form.name} onChange={(e) => setForm((state) => ({ ...state, 'name': e.target.value }))} className='max-w-xl' />
 
-                <TextInput title='Icon' type='file' accept='image/*' onChange={handleInputChange} className='w-full md:w-1/2' />
+                <TextInput title='Icon' type='file' accept='image/*' onChange={handleInputChange} className='max-w-xl' />
                 <div id='galleryID'>
                     {
                         urlPreview && <ImagePreview src={urlPreview} height={300} />

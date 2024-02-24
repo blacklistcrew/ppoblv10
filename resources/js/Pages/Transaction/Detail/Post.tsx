@@ -83,18 +83,18 @@ export default function DetailPhone({ data, category, products, isPln }: DetailP
             data={data}
             title="Transaction"
         >
-            <Card className='flex flex-col px-10 gap-y-3 py-3'>
+            <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
                 {
                     products.length > 1 &&
                     <>
                         <InputLabel>Provider/Operator</InputLabel>
-                        <SelectInput widthClass='w-full md:w-1/3' data={products} value={idProduct} onChange={handleChangeProduct} />
+                        <SelectInput widthClass='max-w-xl' data={products} value={idProduct} onChange={handleChangeProduct} />
                     </>
                 }
 
-                <TextInput title={isPln ? 'Meter Number' : 'ID Customer'} value={idCustomer} loading={loading} errorMessage={errorMessage} isFocused={true} disabled={loading} onChange={(e: any) => handleChangeNumber(e.target.value, idProduct)} className='md:w-1/3 mr-3' />
+                <TextInput title={isPln ? 'Meter Number' : 'ID Customer'} value={idCustomer} loading={loading} errorMessage={errorMessage} isFocused={true} disabled={loading} onChange={(e: any) => handleChangeNumber(e.target.value, idProduct)} className='max-w-xl' />
 
                 <div className='w-full text-right my-5'>
                     <PrimaryButton loading={loading} disabled={!validatedNumber || loading} onClick={() => onSubmit()}>Process</PrimaryButton>

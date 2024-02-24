@@ -35,10 +35,10 @@ export default function SelectInput({ data, title, value, onChange, widthClass, 
                 <InputLabel value={title} className='mb-2' />
             }
 
-            <div className='w-full relative'>
+            <div className={clsx('relative', widthClass)}>
                 <Listbox value={selectedValue} onChange={(e) => onChange(e.id)} disabled={disabled}>
-                    <Listbox.Button className={clsx(`dark:bg-gray-100 rounded px-3 py-2 text-left disabled:opacity-70`, widthClass)}>{selectedValue?.name}</Listbox.Button>
-                    <Listbox.Options className={clsx(`absolute top-[110%] max-h-80 overflow-y-auto z-10`, widthClass)}>
+                    <Listbox.Button className='dark:bg-gray-100 rounded px-3 py-2 text-left disabled:opacity-70 w-full'>{selectedValue?.name}</Listbox.Button>
+                    <Listbox.Options className='absolute top-[110%] max-h-80 overflow-y-auto z-10 w-full'>
                         {listSelect.map((v) => (
                             /* Use the `active` state to conditionally style the active option. */
                             /* Use the `selected` state to conditionally style the selected option. */

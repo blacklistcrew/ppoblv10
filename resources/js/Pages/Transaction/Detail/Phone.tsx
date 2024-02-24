@@ -9,6 +9,7 @@ import axios from 'axios';
 import ProductSelectedDesc from '../Component/ProductSelectedDesc';
 import { filterNumber } from '@/libs/BaseHelper';
 import { toast } from 'react-toastify';
+import clsx from 'clsx';
 
 export default function PhonePrepaid({ data, category }: any) {
     const [phone, setPhone] = useState('')
@@ -90,15 +91,15 @@ export default function PhonePrepaid({ data, category }: any) {
             data={data}
         >
             <Head title="Transaction" />
-            <Card className='flex flex-col px-10 gap-y-3 py-3'>
+            <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
-                <TextInput title='Phone Number' disabled={loadingSubmit} errorMessage={errorMessage} value={phone} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='w-full md:w-1/3' />
+                <TextInput title='Phone Number' disabled={loadingSubmit} errorMessage={errorMessage} value={phone} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='w-full max-w-xl' />
 
                 {
                     products.length > 0 && <label className='dark:text-white'>Nominal</label>
                 }
-                <div className='flex-wrap inline-flex min-w-full gap-8 max-h-96 overflow-y-auto rounded-sm'>
+                <div className={clsx(!loading && 'grid lg:grid-cols-5 md:grid-cols-3', 'gap-8 max-h-96 overflow-y-auto pr-5 rounded-sm')}>
                     {
                         loading ? <div className='w-full text-center dark:text-white'>Processing...</div>
                             : products.map((d: any, i: number) => <Product key={i} data={d} idProduct={idProduct} onClick={() => d.status && handleSelectedPackage(d)} />)

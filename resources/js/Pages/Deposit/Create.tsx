@@ -42,11 +42,11 @@ export default function Create({ data }: PageProps) {
         >
             <h3 className='text-3xl font-medium dark:text-white'>Create Deposit</h3>
 
-            <Card className='py-10 px-8 flex flex-col'>
+            <Card className='flex flex-col md:px-10 p-6 max-w-2xl'>
                 <InputLabel>Nominal</InputLabel>
 
-                <div className='flex items-center gap-x-10'>
-                    <TextInput disabled={loading} loading={loading} className='w-1/4' value={toInteger(nominal)} onChange={handleChangeNomimal} />
+                <div className='flex md:mt-1 items-center gap-x-5 md:gap-x-10'>
+                    <TextInput disabled={loading} loading={loading} value={toInteger(nominal)} onChange={handleChangeNomimal} />
 
                     <PrimaryButton loading={loading} onClick={() => onSubmit()}>Submit</PrimaryButton>
                 </div>

@@ -82,8 +82,8 @@ export default function Show({ data, deposit }: ShowProps & PageProps) {
             data={data}
         >
             <div className='text-3xl dark:text-white'>Deposit : {deposit.id}</div>
-            <div className='flex justify-between gap-x-10'>
-                <Card className='px-4 py-3 w-full md:w-2/4'>
+            <div className='grid lg:grid-cols-2 gap-y-5 gap-x-10'>
+                <Card className='px-4 py-3'>
                     <div className='flex justify-between'>
                         <ItemData label='Bank' value={deposit.bank} />
                         <div className='p-3 text-right'>
@@ -107,19 +107,17 @@ export default function Show({ data, deposit }: ShowProps & PageProps) {
                     }
                 </Card>
 
-                <Card className='px-4 py-3 w-full md:w-1/2 flex flex-col justify-between'>
-                    <div>
-                        <div className='dark:text-white mb-10 text-xl'>Upload Transfer Evidence</div>
+                <Card className='px-4 py-3 flex flex-col'>
+                    <div className='dark:text-white mb-10 text-xl'>Upload Transfer Evidence</div>
 
+                    {
+                        deposit.status == DepositStat.waiting_payment &&
+                        <TextInput type='file' accept='image/*' onChange={handleInputChange} className='w-full md:w-1/2 mb-2' />
+                    }
+                    <div id='galleryID'>
                         {
-                            deposit.status == DepositStat.waiting_payment &&
-                            <TextInput type='file' accept='image/*' onChange={handleInputChange} className='w-full md:w-1/2 mb-2' />
+                            urlPreview && <ImagePreview src={urlPreview} height={210} />
                         }
-                        <div id='galleryID'>
-                            {
-                                urlPreview && <ImagePreview src={urlPreview} height={210} />
-                            }
-                        </div>
                     </div>
                 </Card>
             </div>
