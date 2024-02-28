@@ -18,7 +18,7 @@ const columns = [
     {
         name: 'Status',
         selector: (row: ProductType) => {
-            return <div className={clsx('px-3 py-2 rounded-lg', row.status ? 'bg-green-500' : 'bg-red-500')}>{row.status_name}</div>
+            return <div className={clsx('px-3 py-2 rounded-lg text-white', row.status ? 'bg-green-500' : 'bg-red-500')}>{row.status_name}</div>
         },
     },
 ];
@@ -33,7 +33,7 @@ export default function Welcome({ data }: PageProps) {
                         {data.user ? (
                             <Link
                                 href={route('transaction')}
-                                className="font-semibold text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white dark:hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
+                                className="font-semibold text-white hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
                             >
                                 Dashboard
                             </Link>
@@ -41,14 +41,14 @@ export default function Welcome({ data }: PageProps) {
                             <>
                                 <Link
                                     href={route('login')}
-                                    className="font-semibold text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white dark:hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
+                                    className="font-semibold text-white hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
                                 >
                                     Log in
                                 </Link>
 
                                 <Link
                                     href={route('register')}
-                                    className="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-white dark:hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
+                                    className="ms-4 font-semibold text-white hover:font-medium focus:outline focus:outline-1 focus:rounded-sm focus:outline-white"
                                 >
                                     Register
                                 </Link>
@@ -58,8 +58,8 @@ export default function Welcome({ data }: PageProps) {
 
                     <div className='h-full mt-5 sm:mt-0 lg:pl-10 lg:flex items-center'>
                         <div className='gap-2 flex flex-col'>
-                            <div className='text-3xl dark:text-white '>Buy all digital produk</div>
-                            <div className='text-xl dark:text-white '>Start from phone credit, internet data to pay electricity</div>
+                            <div className='text-3xl text-white '>Buy all digital produk</div>
+                            <div className='text-xl text-white '>Start from phone credit, internet data to pay electricity</div>
                         </div>
                     </div>
                 </div>

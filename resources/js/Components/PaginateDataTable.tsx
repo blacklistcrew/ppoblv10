@@ -77,7 +77,8 @@ const tableCustomStyles = {
     headRow: {
         style: {
             color: '#fff',
-            backgroundColor: 'rgb(31 41 55)'
+            backgroundColor: 'rgb(31 41 55)',
+            fontSize: '15px',
         },
     },
 }
