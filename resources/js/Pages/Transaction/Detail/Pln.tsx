@@ -71,7 +71,7 @@ export default function PlnPrepaid({ data, category, products }: DetailPlnProps 
             <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
-                <TextInput title='Meter Number' disabled={loading} value={idCustomer} errorMessage={errorMessage} isFocused={true} onChange={(e: any) => handleChangeNumber(e.target.value)} className='max-w-xl' />
+                <TextInput title='Meter Number' type='tel' disabled={loading} value={idCustomer} errorMessage={errorMessage} isFocused={true} onChange={(e: any) => handleChangeNumber(e.target.value)} className='max-w-xl' />
 
                 <label className='dark:text-white'>Nominal</label>
                 <div className='grid lg:grid-cols-5 md:grid-cols-3 gap-8 max-h-96 overflow-y-auto rounded-sm pr-5'>

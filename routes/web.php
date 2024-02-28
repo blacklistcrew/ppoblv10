@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardContrller;
 use App\Http\Controllers\Admin\DepositController as AdminDepositController;
@@ -12,9 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Transaction\HistoryController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DigiflazzWebhookController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,18 +25,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/product', [WelcomeController::class, 'productList'])->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,7 +36,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');
-    Route::get('/transaction/list-product', [TransactionController::class, 'listProduct'])->name('transaction.list-product');
+    Route::get('/transaction/list-product/{category}', [TransactionController::class, 'listProduct'])->name('transaction.list-product');
     Route::get('/transaction/validate-pln', [TransactionController::class, 'validateNoPln'])->name('transaction.validate-pln');
     Route::post('/transaction/prepaid', [TransactionController::class, 'createPrepaid'])->name('transaction.prepaid');
     Route::post('/transaction/postpaid', [TransactionController::class, 'checkPostpaid'])->name('transaction.check-postpaid');

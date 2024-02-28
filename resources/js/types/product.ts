@@ -7,5 +7,6 @@ export default interface ProductType {
     total: number
     desc: string
     status: number
+    status_name?: string
     created_at: string
 }

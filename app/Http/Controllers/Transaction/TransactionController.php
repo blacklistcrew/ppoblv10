@@ -68,23 +68,33 @@ class TransactionController extends Controller
         return redirect('/transaction');
     }
 
-    public function listProduct(Request $request): JsonResponse
+    public function listProduct(Request $request, MstCategory $category): JsonResponse
     {
         $validated = $request->validate([
-            'id_category' => ['required', 'int'],
             'id_brand' => ['nullable', 'int'],
             'phone' => ['nullable', 'string'],
         ]);
 
-        $id_category = $validated['id_category'];
         $id_brand = $validated['id_brand'] ?? null;
         $phone = $validated['phone'] ?? null;
 
-        if (empty($id_category)) {
+        if (empty($category)) {
             return response()->json([]);
         }
 
-        $products = MstProduct::where('mst_category_id', $id_category)
+        $order = 'name';
+
+        switch ($category->slug) {
+            case MstCategory::TYPE_PLN:
+            case MstCategory::TYPE_PULSE:
+            case MstCategory::TYPE_EMONEY:
+            case MstCategory::TYPE_ACTIVE_PERIOD:
+            case MstCategory::TYPE_GAME:
+                $order = 'price';
+                break;
+        }
+
+        $products = MstProduct::where('mst_category_id', $category->id)
             ->when($phone, function ($qry, $phone) {
                 $truncatedPhone = substr($phone, 0, 4);
 
@@ -95,6 +105,7 @@ class TransactionController extends Controller
             ->when($id_brand, function ($query, $id_brand) {
                 $query->where('mst_brand_id', $id_brand);
             })
+            ->orderBy($order)
             ->get();
 
         return response()->json($products);
@@ -177,7 +188,7 @@ class TransactionController extends Controller
                 $ant->where('target', $v['target'] ?? null)
                     ->orWhere('mtrpln', $v['id_customer'] ?? null);
             })
-            ->whereNot('status', Transaction::STAT_PROCESS)
+            ->whereIn('status', [Transaction::STAT_PROCESS, Transaction::STAT_WAITING_PAYMENT])
             ->where('created_at', '>=', Carbon::now()->subMinutes(5)->toDateTimeString())
             ->count();
 

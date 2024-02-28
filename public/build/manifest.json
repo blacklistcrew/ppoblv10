@@ -607,12 +607,25 @@
       "_transition.js"
     ]
   },
+  "resources/js/Pages/Welcome--.tsx": {
+    "file": "assets/Welcome--.js",
+    "src": "resources/js/Pages/Welcome--.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
   "resources/js/Pages/Welcome.tsx": {
     "file": "assets/Welcome.js",
     "src": "resources/js/Pages/Welcome.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.tsx"
+      "resources/js/app.tsx",
+      "_Card.js",
+      "_PaginateDataTable.js",
+      "_BaseHelper.js",
+      "_clsx.js",
+      "_PrimaryButton.js"
     ]
   },
   "resources/js/app.tsx": {
@@ -653,6 +666,7 @@
       "resources/js/Pages/Transaction/History/Index.tsx",
       "resources/js/Pages/Transaction/History/Show.tsx",
       "resources/js/Pages/Transaction/Index.tsx",
+      "resources/js/Pages/Welcome--.tsx",
       "resources/js/Pages/Welcome.tsx"
     ],
     "css": [

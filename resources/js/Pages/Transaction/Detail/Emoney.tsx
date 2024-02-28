@@ -33,7 +33,7 @@ export default function EmoneyPrepaid({ data, category, brands, csrf_token }: an
             setLoading(true)
             setDescProduct('')
 
-            const res = await axios.get(`/transaction/list-product?id_category=${category.id}&id_brand=${idBrand}`, { signal })
+            const res = await axios.get(`/transaction/list-product/${category.id}?id_brand=${idBrand}`, { signal })
 
             setProducts(res.data);
             setLoading(false)
@@ -97,7 +97,7 @@ export default function EmoneyPrepaid({ data, category, brands, csrf_token }: an
             <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
-                <TextInput title='Phone Number/ID Customer' errorMessage={errorMessage} value={phone} disabled={loading || loadingSubmit} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='max-w-xl' />
+                <TextInput title='Phone Number/ID Customer' type='tel' errorMessage={errorMessage} value={phone} disabled={loading || loadingSubmit} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='max-w-xl' />
 
                 <InputLabel>Provider/Operator</InputLabel>
                 <SelectInput widthClass='max-w-xl' data={brands} value={idBrand} onChange={setIdBrand} />

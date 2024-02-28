@@ -73,6 +73,15 @@ type PaginateDataTableProps = {
     data?: any
 }
 
+const tableCustomStyles = {
+    headRow: {
+        style: {
+            color: '#fff',
+            backgroundColor: 'rgb(31 41 55)'
+        },
+    },
+}
+
 export default function PaginateDataTable({ title, url, columns, data }: PaginateDataTableProps) {
     const [model, setModel] = useState<ModelProps>({
         current_page: 1,
@@ -160,6 +169,9 @@ export default function PaginateDataTable({ title, url, columns, data }: Paginat
                 subHeaderComponent={subHeaderComponentMemo}
                 persistTableHead
                 theme='custom'
+                fixedHeader
+                fixedHeaderScrollHeight="500px"
+                customStyles={tableCustomStyles}
             />
         </span>
     )

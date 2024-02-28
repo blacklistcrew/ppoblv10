@@ -29,7 +29,7 @@ export default function PhonePrepaid({ data, category }: any) {
         setLoading(true)
         setDescProduct('')
 
-        const res = await axios.get(`/transaction/list-product?id_category=${category.id}&phone=${phone}`, { signal })
+        const res = await axios.get(`/transaction/list-product/${category.id}?phone=${phone}`, { signal })
 
         setProducts(res.data);
         setLoading(false)
@@ -94,7 +94,7 @@ export default function PhonePrepaid({ data, category }: any) {
             <Card className='flex flex-col md:px-10 p-6 gap-y-3'>
                 <h3 className='text-3xl font-medium mb-5 dark:text-white'>{category.name}</h3>
 
-                <TextInput title='Phone Number' disabled={loadingSubmit} errorMessage={errorMessage} value={phone} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='w-full max-w-xl' />
+                <TextInput title='Phone Number' type='tel' disabled={loadingSubmit} errorMessage={errorMessage} value={phone} isFocused={true} onChange={(e: any) => handleChangePhone(e.target.value)} className='w-full max-w-xl' />
 
                 {
                     products.length > 0 && <label className='dark:text-white'>Nominal</label>

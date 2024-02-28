@@ -86,24 +86,26 @@ class CheckTrxPrepaid extends Command
                 $product_code = $data->buyer_sku_code;
                 $sn = isset($data->sn) ? $data->sn : null;
                 $note = $data->message;
-                $user = $trx->user;
                 
-                if ($status == 'sukses') {
-                    $trx->token     = $sn;
-                    $trx->note      = "Trx $product_code $customer_no Success SN : $sn";
-                    $trx->status    = Transaction::STAT_SUCCCESS;
-                } elseif ($status == 'gagal' && $trx->status == Transaction::STAT_PROCESS) {
-                    $productPrice = $trx->total;
+                if ($trx->status == Transaction::STAT_PROCESS) {
+                    if ($status == 'sukses') {
+                        $trx->token     = $sn;
+                        $trx->note      = "Trx $product_code $customer_no Success SN : $sn";
+                        $trx->status    = Transaction::STAT_SUCCCESS;
+                    } elseif ($status == 'gagal') {
+                        $productPrice = $trx->total;
 
-                    $user->refresh();
-                    $sisaSaldo      = $user->saldo + $productPrice;
-                    $user->saldo    = $sisaSaldo;
+                        $user = $trx->user;
+                        $user->refresh();
+                        $sisaSaldo      = $user->saldo + $productPrice;
+                        $user->saldo    = $sisaSaldo;
+                        $user->save();
 
-                    $trx->note      = (!preg_match('/saldo/i', $note) ? $note : 'Product inactive') . ". Saldo refund";
-                    $trx->status    = Transaction::STAT_FAILED;
+                        $trx->note      = (!preg_match('/saldo/i', $note) ? $note : 'Product inactive') . ". Saldo refund";
+                        $trx->status    = Transaction::STAT_FAILED;
+                    }
                 }
 
-                $user->save();
                 $trx->save();
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
