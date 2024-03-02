@@ -29,6 +29,7 @@ class SettingController extends Controller
             'bank' => ['required', 'string'],
             'account_number' => ['required', 'string'],
             'use_prod' => ['required', Rule::in([0, 1])],
+            'status' => ['required', Rule::in([0, 1])],
             'api_username' => ['nullable', 'string'],
             'api_dev_key' => ['nullable', 'string'],
             'api_prod_key' => ['nullable', 'string'],

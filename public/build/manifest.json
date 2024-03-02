@@ -1,4 +1,11 @@
 {
+  "_Api.js": {
+    "file": "assets/Api.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_react-toastify.esm.js"
+    ]
+  },
   "_ApplicationLogo.js": {
     "file": "assets/ApplicationLogo.js",
     "imports": [
@@ -11,6 +18,7 @@
     "imports": [
       "resources/js/app.tsx",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ],
@@ -50,7 +58,8 @@
     "file": "assets/PaginateDataTable.js",
     "imports": [
       "resources/js/app.tsx",
-      "_PrimaryButton.js"
+      "_PrimaryButton.js",
+      "_Api.js"
     ]
   },
   "_PrimaryButton.js": {
@@ -99,6 +108,16 @@
       "_transition.js"
     ]
   },
+  "_react-toastify.esm.js": {
+    "file": "assets/react-toastify.esm.js",
+    "imports": [
+      "resources/js/app.tsx",
+      "_clsx.js"
+    ]
+  },
+  "_transaction.js": {
+    "file": "assets/transaction.js"
+  },
   "_transition.js": {
     "file": "assets/transition.js",
     "imports": [
@@ -121,6 +140,7 @@
       "_PrimaryButton.js",
       "_TextInput.js",
       "_ImagePreview.js",
+      "_react-toastify.esm.js",
       "_clsx.js",
       "_ApplicationLogo.js",
       "_transition.js"
@@ -138,8 +158,10 @@
       "_PrimaryButton.js",
       "_BaseHelper.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Admin/Dashboard/Index.tsx": {
@@ -152,6 +174,7 @@
       "_Card.js",
       "_BaseHelper.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
@@ -169,8 +192,10 @@
       "_clsx.js",
       "_BaseHelper.js",
       "_deposit.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Admin/Deposit/Show.tsx": {
@@ -186,6 +211,8 @@
       "_deposit.js",
       "_TextInput.js",
       "_ImagePreview.js",
+      "_Api.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
@@ -202,8 +229,10 @@
       "_BaseHelper.js",
       "_PrimaryButton.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Admin/Product/Show.tsx": {
@@ -217,7 +246,9 @@
       "_TextInput.js",
       "_BaseHelper.js",
       "_PrimaryButton.js",
+      "_Api.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
@@ -234,10 +265,12 @@
       "_SelectInput.js",
       "_TextInput.js",
       "_AuthenticatedLayout.js",
+      "_Api.js",
       "_clsx.js",
       "_transition.js",
       "_keyboard.js",
       "_description.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js"
     ]
   },
@@ -253,8 +286,10 @@
       "_PrimaryButton.js",
       "_clsx.js",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Admin/Transaction/Show.tsx": {
@@ -265,10 +300,75 @@
       "resources/js/app.tsx",
       "_AuthenticatedLayout.js",
       "_Card.js",
+      "_transaction.js",
       "_clsx.js",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Edit.tsx": {
+    "file": "assets/Edit2.js",
+    "src": "resources/js/Pages/Admin/User/Edit.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_AuthenticatedLayout.js",
+      "resources/js/Pages/Admin/User/Partials/UpdatePasswordForm.tsx",
+      "resources/js/Pages/Admin/User/Partials/UpdateProfileInformationForm.tsx",
+      "_Card.js",
+      "_clsx.js",
+      "_react-toastify.esm.js",
+      "_ApplicationLogo.js",
+      "_transition.js",
+      "_TextInput.js",
+      "_PrimaryButton.js",
+      "_Api.js"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Index.tsx": {
+    "file": "assets/Index7.js",
+    "src": "resources/js/Pages/Admin/User/Index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_AuthenticatedLayout.js",
+      "_PaginateDataTable.js",
+      "_Card.js",
+      "_BaseHelper.js",
+      "_PrimaryButton.js",
+      "_clsx.js",
+      "_react-toastify.esm.js",
+      "_ApplicationLogo.js",
+      "_transition.js",
+      "_Api.js"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Partials/UpdatePasswordForm.tsx": {
+    "file": "assets/UpdatePasswordForm.js",
+    "src": "resources/js/Pages/Admin/User/Partials/UpdatePasswordForm.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_TextInput.js",
+      "_PrimaryButton.js",
+      "_transition.js",
+      "_clsx.js"
+    ]
+  },
+  "resources/js/Pages/Admin/User/Partials/UpdateProfileInformationForm.tsx": {
+    "file": "assets/UpdateProfileInformationForm.js",
+    "src": "resources/js/Pages/Admin/User/Partials/UpdateProfileInformationForm.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_TextInput.js",
+      "_PrimaryButton.js",
+      "_Api.js",
+      "_transition.js",
+      "_clsx.js",
+      "_react-toastify.esm.js"
     ]
   },
   "resources/js/Pages/Auth/ConfirmPassword.tsx": {
@@ -361,6 +461,7 @@
       "resources/js/app.tsx",
       "_AuthenticatedLayout.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
@@ -375,6 +476,7 @@
       "_Card.js",
       "_TextInput.js",
       "_PrimaryButton.js",
+      "_react-toastify.esm.js",
       "_BaseHelper.js",
       "_clsx.js",
       "_ApplicationLogo.js",
@@ -382,7 +484,7 @@
     ]
   },
   "resources/js/Pages/Deposit/Index.tsx": {
-    "file": "assets/Index7.js",
+    "file": "assets/Index8.js",
     "src": "resources/js/Pages/Deposit/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -394,8 +496,10 @@
       "_clsx.js",
       "_BaseHelper.js",
       "_deposit.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Deposit/Show.tsx": {
@@ -411,12 +515,13 @@
       "_deposit.js",
       "_TextInput.js",
       "_ImagePreview.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
   },
   "resources/js/Pages/Profile/Edit.tsx": {
-    "file": "assets/Edit2.js",
+    "file": "assets/Edit3.js",
     "src": "resources/js/Pages/Profile/Edit.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -426,6 +531,7 @@
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.tsx",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.tsx",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js",
       "_TextInput.js",
@@ -448,7 +554,7 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.tsx": {
-    "file": "assets/UpdatePasswordForm.js",
+    "file": "assets/UpdatePasswordForm2.js",
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -460,7 +566,7 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.tsx": {
-    "file": "assets/UpdateProfileInformationForm.js",
+    "file": "assets/UpdateProfileInformationForm2.js",
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -503,6 +609,7 @@
       "resources/js/Pages/Transaction/Component/Product.tsx",
       "_BaseHelper.js",
       "resources/js/Pages/Transaction/Component/ProductSelectedDesc.tsx",
+      "_react-toastify.esm.js",
       "_clsx.js",
       "_ApplicationLogo.js",
       "_transition.js",
@@ -522,6 +629,7 @@
       "resources/js/Pages/Transaction/Component/Product.tsx",
       "resources/js/Pages/Transaction/Component/ProductSelectedDesc.tsx",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_clsx.js",
       "_ApplicationLogo.js",
       "_transition.js"
@@ -539,6 +647,7 @@
       "_PrimaryButton.js",
       "resources/js/Pages/Transaction/Component/Product.tsx",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_clsx.js",
       "_ApplicationLogo.js",
       "_transition.js"
@@ -554,6 +663,7 @@
       "_Card.js",
       "_TextInput.js",
       "_PrimaryButton.js",
+      "_react-toastify.esm.js",
       "_SelectInput.js",
       "_BaseHelper.js",
       "_clsx.js",
@@ -563,7 +673,7 @@
     ]
   },
   "resources/js/Pages/Transaction/History/Index.tsx": {
-    "file": "assets/Index8.js",
+    "file": "assets/Index9.js",
     "src": "resources/js/Pages/Transaction/History/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -574,8 +684,10 @@
       "_PrimaryButton.js",
       "_clsx.js",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
-      "_transition.js"
+      "_transition.js",
+      "_Api.js"
     ]
   },
   "resources/js/Pages/Transaction/History/Show.tsx": {
@@ -586,14 +698,16 @@
       "resources/js/app.tsx",
       "_AuthenticatedLayout.js",
       "_Card.js",
+      "_transaction.js",
       "_clsx.js",
       "_BaseHelper.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
     ]
   },
   "resources/js/Pages/Transaction/Index.tsx": {
-    "file": "assets/Index9.js",
+    "file": "assets/Index10.js",
     "src": "resources/js/Pages/Transaction/Index.tsx",
     "isDynamicEntry": true,
     "imports": [
@@ -603,16 +717,9 @@
       "_PrimaryButton.js",
       "_BaseHelper.js",
       "_clsx.js",
+      "_react-toastify.esm.js",
       "_ApplicationLogo.js",
       "_transition.js"
-    ]
-  },
-  "resources/js/Pages/Welcome--.tsx": {
-    "file": "assets/Welcome--.js",
-    "src": "resources/js/Pages/Welcome--.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.tsx"
     ]
   },
   "resources/js/Pages/Welcome.tsx": {
@@ -625,7 +732,9 @@
       "_PaginateDataTable.js",
       "_BaseHelper.js",
       "_clsx.js",
-      "_PrimaryButton.js"
+      "_PrimaryButton.js",
+      "_Api.js",
+      "_react-toastify.esm.js"
     ]
   },
   "resources/js/app.tsx": {
@@ -643,6 +752,10 @@
       "resources/js/Pages/Admin/Setting/Index.tsx",
       "resources/js/Pages/Admin/Transaction/Index.tsx",
       "resources/js/Pages/Admin/Transaction/Show.tsx",
+      "resources/js/Pages/Admin/User/Edit.tsx",
+      "resources/js/Pages/Admin/User/Index.tsx",
+      "resources/js/Pages/Admin/User/Partials/UpdatePasswordForm.tsx",
+      "resources/js/Pages/Admin/User/Partials/UpdateProfileInformationForm.tsx",
       "resources/js/Pages/Auth/ConfirmPassword.tsx",
       "resources/js/Pages/Auth/ForgotPassword.tsx",
       "resources/js/Pages/Auth/Login.tsx",
@@ -666,7 +779,6 @@
       "resources/js/Pages/Transaction/History/Index.tsx",
       "resources/js/Pages/Transaction/History/Show.tsx",
       "resources/js/Pages/Transaction/Index.tsx",
-      "resources/js/Pages/Welcome--.tsx",
       "resources/js/Pages/Welcome.tsx"
     ],
     "css": [

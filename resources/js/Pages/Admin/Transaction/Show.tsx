@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, useState } from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Card from '@/Components/Card'
-import Transaction, { StatusType } from '@/types/transaction'
+import Transaction, { StatusType, TrsansactionStat } from '@/types/transaction'
 import clsx from 'clsx';
 import { formatDate, listStatus, rupiah } from '@/libs/BaseHelper';
 import axios from 'axios';
@@ -84,7 +84,7 @@ export default function Show({ data, transaction, category }: PageProps & ShowPr
           </div>
 
           {
-            transaction.status === 3 &&
+            transaction.status === TrsansactionStat.waiting_payment &&
             <div className='p-3 mt-5 flex gap-x-8 justify-between'>
               <BtnSubmit label='Cancel' loading={loading} onClick={() => onSubmit(0)} className={clsx('bg-red-500', !loading && 'hover:bg-red-600')} />
               <BtnSubmit label='Pay Now' loading={loading} onClick={() => onSubmit(1)} className={clsx('bg-blue-500', !loading && 'hover:bg-blue-600')} />

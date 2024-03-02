@@ -27,13 +27,13 @@ const ListMenu = ({ Icon, link, title, active }: ListMenuProps) => {
     const isActive = route().current(active === undefined ? link : active)
 
     return (
-        <li className={clsx("group rounded-sm px-6 hover:bg-gray-100 transition duration-300 ease-in-out", isActive ? 'bg-gray-200' : 'dark:hover:bg-gray-700')}>
+        <li className={clsx("group rounded-sm px-6 hover:bg-gray-100 transition duration-300 ease-in-out", isActive ? 'bg-gray-200 hover:bg-gray-300' : 'dark:hover:bg-gray-700')}>
             <Link
                 href={link}
                 className='flex items-center py-4 space-x-3 rounded-md'
             >
-                <Icon className={clsx(isActive ? 'group-hover:text-white dark:group-hover:text-black' : 'dark:text-white ')} size={20} />
-                <span className={clsx(isActive ? 'group-hover:text-white dark:group-hover:text-black' : 'dark:text-white ')}>{title}</span>
+                <Icon className={clsx(isActive ? 'dark:group-hover:text-black' : 'dark:text-white ')} size={20} />
+                <span className={clsx(isActive ? 'dark:group-hover:text-black' : 'dark:text-white ')}>{title}</span>
             </Link>
         </li >
     )
@@ -169,20 +169,31 @@ export default function Authenticated({ data, title, children }: PropsWithChildr
                                     <li className="px-6 text-sm dark:text-gray-400 mt-2">Master</li >
                                     <ListMenu Icon={BiCategory} link='/admin/category' title='Category' active='admin.category*' />
                                     <ListMenu Icon={BiCategory} link='/admin/product' title='Product' active='admin.product*' />
-                                    <ListMenu Icon={FaCog} link='/admin/setting' title='Setting' active='admin.setting*' />
+                                    <ListMenu Icon={BiCategory} link='/admin/user' title='User' active='admin.user*' />
+                                    <li className="px-6 text-sm dark:text-gray-400 mt-2">Setting</li >
+                                    <ListMenu Icon={FaCog} link='/admin/setting' title='App' active='admin.setting*' />
                                 </>
                                 :
                                 <>
                                     <ListMenu Icon={GoHome} link='/transaction' title='Home' active='transaction*' />
                                     <ListMenu Icon={GoHistory} link='/history' title='History' active='history*' />
                                     <ListMenu Icon={CiCirclePlus} link='/deposit' title='Deposit' active='deposit*' />
-                                    <li className="px-6 text-sm dark:text-gray-400 mt-2">Administrator</li >
-                                    <ListMenu Icon={BiCategory} link='/admin' title='Admin Panel' />
+                                    {
+                                        !!data.is_admin &&
+                                        <>
+                                            <li className="px-6 text-sm dark:text-gray-400 mt-2">Administrator</li >
+                                            <ListMenu Icon={BiCategory} link='/admin' title='Admin Panel' />
+                                        </>
+                                    }
                                 </>
                         }
                     </ul>
                 </aside>
-                <main className="w-full p-3 md:p-10 flex flex-col gap-y-5 overflow-y-auto h-[93vh]">
+                <main className="w-full p-3 md:p-10 flex flex-col gap-y-5 overflow-y-auto h-[93vh] pb-10">
+                    {
+                        !data.setting?.status &&
+                        <div className='p-5 bg-red-500 rounded-md text-white'>System is under maintenance</div>
+                    }
                     {children}
                 </main>
             </div>

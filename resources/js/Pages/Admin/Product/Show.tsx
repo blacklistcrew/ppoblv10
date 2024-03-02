@@ -9,6 +9,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { router } from '@inertiajs/react'
+import Api from '@/libs/Api'
 
 export default function Show({ data, product }: PageProps & { product: ProductType }) {
     const [form, setForm] = useState(product);
@@ -30,20 +31,14 @@ export default function Show({ data, product }: PageProps & { product: ProductTy
         setForm((state) => ({ ...state, [e.target.name]: value }))
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         setLoading(true)
-        axios.put(`/admin/product/${product.id}`, form)
-            .then(res => {
-                toast.success(res.data.message);
-                router.get('/admin/product')
-                return;
-            })
-            .catch(res => {
-                toast.error(res.response.data?.message);
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        const res = await Api.put(`/admin/product/${product.id}`, form)
+        if (res) {
+            router.get('/admin/product')
+            return;
+        }
+        setLoading(false)
     }
 
     return (

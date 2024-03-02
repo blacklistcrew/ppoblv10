@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput';
 import ImagePreview from '@/Components/ImagePreview';
 import { toast } from 'react-toastify';
 import { PageProps } from '@/types';
+import Api from '@/libs/Api';
 
 type ItemDataProps = {
     label: string
@@ -44,23 +45,12 @@ export default function Show({ data, deposit }: ShowProps & PageProps) {
 
     const onSubmit = async (stat: number) => {
         setLoading(true)
-
-        axios.put(`/admin/deposit/${deposit.id}`, { stat })
-            .then(e => {
-                if (e.data?.success) {
-                    toast.success(e.data?.message);
-                    router.get('/admin/deposit')
-                    return;
-                } else {
-                    toast.error(e.data?.message);
-                }
-            })
-            .catch(e => {
-                toast.error(e.response.data?.message);
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        const res = await Api.put(`/admin/deposit/${deposit.id}`, {stat})
+        if (res) {
+            router.get('/admin/deposit')
+            return;
+        }
+        setLoading(false)
     }
 
     let urlPreview = '';

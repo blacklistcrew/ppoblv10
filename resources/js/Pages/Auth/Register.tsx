@@ -43,6 +43,7 @@ export default function Register(props: PageProps) {
                         className="mt-1 block w-full"
                         autoComplete="name"
                         isFocused={true}
+                        disabled={processing}
                         onChange={(e) => setData('name', e.target.value)}
                         required
                     />
@@ -60,6 +61,7 @@ export default function Register(props: PageProps) {
                         value={data.email}
                         className="mt-1 block w-full"
                         autoComplete="username"
+                        disabled={processing}
                         onChange={(e) => setData('email', e.target.value)}
                         required
                     />
@@ -77,6 +79,7 @@ export default function Register(props: PageProps) {
                         value={data.password}
                         className="mt-1 block w-full"
                         autoComplete="new-password"
+                        disabled={processing}
                         onChange={(e) => setData('password', e.target.value)}
                         required
                     />
@@ -94,6 +97,7 @@ export default function Register(props: PageProps) {
                         value={data.password_confirmation}
                         className="mt-1 block w-full"
                         autoComplete="new-password"
+                        disabled={processing}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         required
                     />

@@ -18,3 +18,10 @@ export type StatusType = {
     color: string,
     desc: string
 }
+
+export const TrsansactionStat = {
+    failed: 0,
+    process: 1,
+    success: 2,
+    waiting_payment: 3
+}

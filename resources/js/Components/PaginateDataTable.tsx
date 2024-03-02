@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
 import styled from 'styled-components';
 import PrimaryButton from './PrimaryButton';
+import Api from '@/libs/Api';
 
 const TextField = styled.input`
     height: 32px;
@@ -115,7 +115,7 @@ export default function PaginateDataTable({ title, url, columns, data }: Paginat
         if (paginationServer) {
             setLoading(true);
 
-            const res: any = await axios.get(`${url}?page=${page}&per_page=${per_page}&q=${q}`, { signal })
+            const res: any = await Api.get(`${url}?page=${page}&per_page=${per_page}&q=${q}`, { signal })
 
             setModel(res.data)
             setLoading(false);

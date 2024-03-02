@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DepositController as AdminDepositController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Transaction\HistoryController;
@@ -62,6 +63,12 @@ Route::group(['prefix' => 'admin',  'middleware' => ['auth', 'verified', 'role:a
     Route::get('/product/list', [ProductController::class, 'list'])->name('admin.product.list');
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('admin.product.show');
     Route::put('/product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
+
+    Route::get('/user', [UserController::class, 'index'])->name('admin.user');
+    Route::get('/user/list', [UserController::class, 'list'])->name('admin.user.list');
+    Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/user/profile/{user}', [UserController::class, 'updateProfile'])->name('admin.user.profile.update');
+    Route::put('/user/password/{user}', [UserController::class, 'updatePassword'])->name('admin.user.password.update');
 
     Route::get('/transaction', [AdminTransactionController::class, 'index'])->name('admin.transaction');
     Route::get('/transaction/list', [AdminTransactionController::class, 'list'])->name('admin.transaction.list');

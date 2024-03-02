@@ -58,7 +58,7 @@ export default function Welcome({ data }: PageProps) {
 
                     <div className='h-full mt-5 sm:mt-0 lg:pl-10 lg:flex items-center'>
                         <div className='gap-2 flex flex-col'>
-                            <div className='text-3xl text-white '>Buy all digital produk</div>
+                            <div className='text-3xl text-white '>Buy all digital product</div>
                             <div className='text-xl text-white '>Start from phone credit, internet data to pay electricity</div>
                         </div>
                     </div>

@@ -4,14 +4,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import SelectInput from '@/Components/SelectInput';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Api from '@/libs/Api';
 import { PageProps } from '@/types';
 import SettingType from '@/types/setting';
 import { Switch } from '@headlessui/react';
 import { router } from '@inertiajs/react';
-import axios from 'axios';
 import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
-import { toast } from 'react-toastify';
 
 export default function Index({ data, model }: PageProps & { model: SettingType }) {
   const [form, setForm] = useState(model);
@@ -26,7 +25,7 @@ export default function Index({ data, model }: PageProps & { model: SettingType 
     setForm((state) => ({ ...state, [e.target.name]: e.target.value }))
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setLoading(true)
 
     const formData = new FormData();
@@ -39,19 +38,14 @@ export default function Index({ data, model }: PageProps & { model: SettingType 
     formData.append('api_prod_key', form.api_prod_key);
     formData.append('api_secret', form.api_secret);
     formData.append('use_prod', `${form.use_prod}`);
+    formData.append('status', `${form.status}`);
 
-    axios.post('/admin/setting', formData)
-      .then(res => {
-        toast.success(res.data?.message);
-        router.reload()
-        return;
-      })
-      .catch(res => {
-        toast.error(res.response.data?.message);
-      })
-      .finally(() => {
-        setLoading(false)
-      })
+    const res = await Api.post('/admin/setting', formData)
+    if (res) {
+      router.reload()
+      return;
+    }
+    setLoading(false)
   }
 
   let urlPreview = '';
@@ -66,7 +60,7 @@ export default function Index({ data, model }: PageProps & { model: SettingType 
       break;
   }
 
-  const checked = !form.status;
+  const checked = !!form.status;
 
   return (
     <AuthenticatedLayout

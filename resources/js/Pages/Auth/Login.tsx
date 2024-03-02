@@ -46,6 +46,7 @@ export default function Login({ status, canResetPassword, ...rest }: PageProps &
                         className="mt-1 block w-full"
                         autoComplete="id_user"
                         isFocused={true}
+                        disabled={processing}
                         onChange={(e) => setData('id_user', e.target.value)}
                     />
 
@@ -62,6 +63,7 @@ export default function Login({ status, canResetPassword, ...rest }: PageProps &
                         value={data.password}
                         className="mt-1 block w-full"
                         autoComplete="current-password"
+                        disabled={processing}
                         onChange={(e) => setData('password', e.target.value)}
                     />
 
