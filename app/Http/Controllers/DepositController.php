@@ -31,6 +31,7 @@ class DepositController extends Controller
                 $qry->where('bank', 'like', "%$q%")
                     ->orWhere('account_number', 'like', "%$q%");
             })
+            ->orderByDesc('id')
             ->paginate($perPage);
 
         return response()->json($deposits);
