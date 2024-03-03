@@ -37,15 +37,15 @@ export default function SelectInput({ data, title, value, onChange, widthClass, 
 
             <div className={clsx('relative border border-gray-300 rounded-md shadow-sm', widthClass)}>
                 <Listbox value={selectedValue} onChange={(e) => onChange(e.id)} disabled={disabled}>
-                    <Listbox.Button className='dark:bg-gray-100 rounded px-3 py-2 text-left disabled:opacity-70 w-full'>{selectedValue?.name || 'Select'}</Listbox.Button>
-                    <Listbox.Options className='absolute top-[110%] max-h-80 overflow-y-auto z-10 w-full border border-gray-300'>
+                    <Listbox.Button className='dark:bg-gray-100 rounded px-3 py-2 text-left disabled:opacity-70 w-full'>{selectedValue?.name || 'Choose'}</Listbox.Button>
+                    <Listbox.Options className='absolute top-[110%] max-h-80 overflow-y-auto z-10 w-full border border-gray-300 bg-white'>
                         {listSelect.map((v) => (
                             /* Use the `active` state to conditionally style the active option. */
                             /* Use the `selected` state to conditionally style the selected option. */
                             <Listbox.Option key={v.id} value={v} as={Fragment}>
                                 {({ active, selected }) => (
                                     <li className={clsx(
-                                        `py-1 pl-3 flex items-center bg-white`,
+                                        `py-1 pl-3 flex items-center`,
                                         active && 'bg-gray-500 text-white ',
                                         selectedValue?.id !== undefined && selectedValue?.id > 0 && selected && 'bg-gray-600 text-white ',
                                     )}>

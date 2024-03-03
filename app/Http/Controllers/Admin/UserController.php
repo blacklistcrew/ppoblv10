@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -30,7 +31,13 @@ class UserController extends Controller
         $q = $validated['q'] ?? '';
         $perPage = $validated['per_page'] ?: 10;
 
-        $models = User::where('name', 'LIKE', "%$q%")
+        $models = User::when($q, function ($qry, $q) {
+            $qry->where('username', 'LIKE', "%$q%")
+                ->orWhere('name', 'LIKE', "%$q%")
+                ->orWhere('email', 'LIKE', "%$q%")
+                ->orWhere('saldo', 'LIKE', "%$q%")
+                ->orWhere(DB::raw("(CASE WHEN status=1 THEN 'active' ELSE 'inactive' END)"), 'LIKE', "%$q%");
+        })
             ->paginate($perPage);
 
         return response()->json($models);

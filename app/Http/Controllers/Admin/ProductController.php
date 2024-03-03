@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -27,7 +28,13 @@ class ProductController extends Controller
         $q = $validated['q'] ?? '';
         $perPage = $validated['per_page'] ?: 10;
 
-        $models = MstProduct::where('name', 'LIKE', "%$q%")
+        $models = MstProduct::when($q, function ($qry, $q) {
+            $qry->where('name', 'LIKE', "%$q%")
+                ->orWhere('price', 'LIKE', "%$q%")
+                ->orWhere('commission', 'LIKE', "%$q%")
+                ->orWhere('total', 'LIKE', "%$q%")
+                ->orWhere(DB::raw("(CASE WHEN status=1 THEN 'active' ELSE 'inactive' END)"), 'LIKE', "%$q%");
+        })
             ->paginate($perPage);
 
         return response()->json($models);

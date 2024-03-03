@@ -40,10 +40,10 @@ export default function Index({ data }: PageProps) {
   return (
     <AuthenticatedLayout
       data={data}
-      title='Product'
+      title='User'
     >
       <Card className='p-4'>
-        <PaginateDataTable title='Products' url='/admin/user/list' columns={columns} />
+        <PaginateDataTable title='Users' url='/admin/user/list' columns={columns} />
       </Card>
     </AuthenticatedLayout>
   )
