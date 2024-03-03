@@ -1,1 +1,0 @@
-import{j as o}from"./app-Bu5qAY3h.js";function d({children:r,className:s="",...a}){return o.jsx("div",{...a,className:`bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg ${s}`,children:r})}export{d as C};
