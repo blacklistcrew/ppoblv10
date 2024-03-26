@@ -20,4 +20,6 @@
 7. **Setting database** pada file `.env`
 8. `php artisan migrate --seed`
 9. `php artisan serve`
-10. Selesai
+10. Akses web melalui browser
+11. Login user `admin` pass `admin`
+12. Selesai
